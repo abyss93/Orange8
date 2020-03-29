@@ -56,6 +56,19 @@ export class Chip8state {
         this._v = v
     }
 
+    public vx(x: number, n: number) {
+        if (x > 15 || x < 0) {
+            throw new Error("Invalid REGISTER: " + x)
+        }
+        if (n > 255) {
+            throw new Error("Invalid VX REGISTER size")
+        }
+        if (!this._v) {
+            this._v = new Array<number>(16)
+        }
+        this._v[x] = n
+    }
+
     public get sp(): number {
         return this._sp
     }

@@ -77,6 +77,10 @@ export class Chip8Impl implements Chip8 {
                 return new CALL(this.chip8State, callAddr)
                 break;
             case 0x3:
+                let mask3vx = 0x0F00
+                let vx = opcode & mask3vx
+                let mask3kk = 0x00FF
+                let kk = opcode & mask3kk
                 break;
             case 0x4:
                 break;

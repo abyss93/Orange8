@@ -19,6 +19,11 @@ export class Chip8StateBuilderImpl implements Chip8StateBuilder {
         return this
     }
 
+    public vx(x: number, n: number) {
+        this.chip8State.vx(x, n)
+        return this
+    }
+
     public sp(sp: number) {
         this.chip8State.sp = sp
         return this
