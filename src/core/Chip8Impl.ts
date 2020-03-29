@@ -1,21 +1,21 @@
-import { Chip8 } from "./Chip8";
-import { Chip8state } from "./Chip8State";
 import { Fetcher } from "../fetch/Fetcher";
 import { FetcherImpl } from "../fetch/FetcherImpl";
+import { ADD_VxByte } from "../instructionSet/ADD_VxByte";
+import { Instruction } from "../instructionSet/API/Instruction";
+import { CALL } from "../instructionSet/CALL";
+import { CLS } from "../instructionSet/CLS";
 import { IDLE } from "../instructionSet/custom/IDLE";
+import { JP } from "../instructionSet/JP";
+import { LD_VxByte } from "../instructionSet/LD_VxByte";
+import { LD_VxVy } from "../instructionSet/LD_VxVy";
+import { RET } from "../instructionSet/RET";
+import { SE_VxByte } from "../instructionSet/SE_VxByte";
+import { SE_VxVy } from "../instructionSet/SE_VxVy";
+import { SNE_VxByte } from "../instructionSet/SNE_VxByte";
 import { Chip8StateBuilderImpl } from "../utils/Chip8StateBuilderImpl";
 import { Constants } from "../utils/Constants";
-import { Instruction } from "../instructionSet/API/Instruction";
-import { CLS } from "../instructionSet/CLS";
-import { RET } from "../instructionSet/RET";
-import { JP } from "../instructionSet/JP";
-import { CALL } from "../instructionSet/CALL";
-import { SE_VxByte } from "../instructionSet/SE_VxByte";
-import { SNE_VxByte } from "../instructionSet/SNE_VxByte";
-import { SE_VxVy } from "../instructionSet/SE_VxVy";
-import { LD_VxByte } from "../instructionSet/LD_VxByte";
-import { ADD_VxByte } from "../instructionSet/ADD_VxByte";
-import { LD_VxVy } from "../instructionSet/LD_VxVy";
+import { Chip8 } from "./Chip8";
+import { Chip8state } from "./Chip8State";
 
 export class Chip8Impl implements Chip8 {
 
@@ -71,63 +71,54 @@ export class Chip8Impl implements Chip8 {
                     case 0xEE:
                         return new RET(this.chip8State)
                 }
-                break;
             case 0x1:
                 let mask1 = 0x0FFF
                 let jpAddr = opcode & mask1
                 return new JP(this.chip8State, jpAddr)
-                break;
             case 0x2:
                 let mask2 = 0x0FFF
                 let callAddr = opcode & mask2
                 return new CALL(this.chip8State, callAddr)
-                break;
             case 0x3:
                 let mask3vx = 0x0F00
                 let vx_0x3 = (opcode & mask3vx) >> 8
                 let mask3kk = 0x00FF
                 let kk_0x3 = opcode & mask3kk
                 return new SE_VxByte(this.chip8State, vx_0x3, kk_0x3)
-                break;
             case 0x4:
                 let mask4vx = 0x0F00
                 let vx_0x4 = (opcode & mask4vx) >> 8
                 let mask4kk = 0x00FF
                 let kk_0x4 = opcode & mask4kk
                 return new SNE_VxByte(this.chip8State, vx_0x4, kk_0x4)
-                break;
             case 0x5:
                 let mask5x = 0x0F00
                 let vx_0x5 = (opcode & mask5x) >> 8
                 let mask5y = 0x00F0
                 let vy_0x5 = (opcode & mask5y) >> 4
                 return new SE_VxVy(this.chip8State, vx_0x5, vy_0x5)
-                break;
             case 0x6:
                 let mask6x = 0x0F00
                 let vx_0x6 = (opcode & mask6x) >> 8
                 let mask6_kk = 0x00FF
                 let kk_0x6 = opcode & mask6_kk
                 return new LD_VxByte(this.chip8State, vx_0x6, kk_0x6)
-                break;
             case 0x7:
                 let mask7x = 0x0F00
                 let vx_0x7 = (opcode & mask7x) >> 8
                 let mask7_kk = 0x00FF
                 let kk_0x7 = opcode & mask7_kk
                 return new ADD_VxByte(this.chip8State, vx_0x7, kk_0x7)
-                break;
             case 0x8:
                 let mask8 = 0x000F;
                 let format8 = (opcode & mask8) << 12;
+                let mask8x = 0x0F00
+                let mask8y = 0x00F0
+                let vx_0x8_0x0 = (opcode & mask8x) >> 8
+                let vy_0x8_0x0 = (opcode & mask8y) >> 4
                 switch (format8) {
                     case 0x0:
-                        let mask8x = 0x0F00
-                        let mask8y = 0x00F0
-                        let vx_0x8_0x0 = (opcode & mask8x) >> 8
-                        let vy_0x8_0x0 = (opcode & mask8y) >> 4
                         return new LD_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
-                        break;
                     case 0x1:
                         break;
                     case 0x2:
