@@ -60,8 +60,8 @@ export class Chip8state {
         if (x > 15 || x < 0) {
             throw new Error("Invalid REGISTER: " + x)
         }
-        if (n > 255) {
-            throw new Error("Invalid VX REGISTER size")
+        if (n > 255 || n < 0) {
+            throw new Error("Invalid VX REGISTER value: " + n)
         }
         if (!this._v) {
             this._v = new Array<number>(16)
@@ -74,8 +74,8 @@ export class Chip8state {
     }
 
     public set sp(sp: number) {
-        if (sp > 255) {
-            throw new Error("Invalid STACK POINTER size")
+        if (sp > 255 || sp < 0) {
+            throw new Error("Invalid STACK POINTER value: " + sp)
         }
         this._sp = sp
     }
@@ -97,7 +97,7 @@ export class Chip8state {
 
     public set ip(ip: number) {
         if (ip > (2 ** 16 - 1)) {
-            throw new Error("Invalid INSTRUCTION POINTER size")
+            throw new Error("Invalid INSTRUCTION POINTER: " + ip)
         }
         this._ip = ip
     }
@@ -108,7 +108,7 @@ export class Chip8state {
 
     public set i(i: number) {
         if (i > (2 ** 16 - 1)) {
-            throw new Error("Invalid INDEX REGISTER size")
+            throw new Error("Invalid INDEX REGISTER:" + i)
         }
         this._i = i
     }
@@ -119,7 +119,7 @@ export class Chip8state {
 
     public set opcode(opcode: number) {
         if (opcode > (2 ** 16 - 1)) {
-            throw new Error("Invalid OPCODE size")
+            throw new Error("Invalid OPCODE:" + opcode)
         }
         this._opcode = opcode
     }
@@ -141,7 +141,7 @@ export class Chip8state {
 
     public set delay(delay: number) {
         if (delay > (2 ** 8 - 1)) {
-            throw new Error("Invalid DELAY REGISTER size")
+            throw new Error("Invalid DELAY REGISTER: " + delay)
         }
         this._delay = delay
     }
@@ -152,7 +152,7 @@ export class Chip8state {
 
     public set sound(sound: number) {
         if (sound > (2 ** 8 - 1)) {
-            throw new Error("Invalid SOUND REGISTER size")
+            throw new Error("Invalid SOUND REGISTER: " + sound)
         }
         this._sound = sound
     }
