@@ -8,6 +8,8 @@ import { Constants } from "../utils/Constants";
 import { Instruction } from "../instructionSet/API/Instruction";
 import { CLS } from "../instructionSet/CLS";
 import { RET } from "../instructionSet/RET";
+import { JP } from "../instructionSet/JP";
+import { CALL } from "../instructionSet/CALL";
 
 export class Chip8Impl implements Chip8 {
 
@@ -65,8 +67,14 @@ export class Chip8Impl implements Chip8 {
                 }
                 break;
             case 0x1:
+                let mask1 = 0x0FFF
+                let jpAddr = opcode & mask1
+                return new JP(this.chip8State, jpAddr)
                 break;
             case 0x2:
+                let mask2 = 0x0FFF
+                let callAddr = opcode & mask2
+                return new CALL(this.chip8State, callAddr)
                 break;
             case 0x3:
                 break;
