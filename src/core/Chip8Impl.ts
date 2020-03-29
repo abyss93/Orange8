@@ -16,6 +16,7 @@ import { Chip8StateBuilderImpl } from "../utils/Chip8StateBuilderImpl";
 import { Constants } from "../utils/Constants";
 import { Chip8 } from "./Chip8";
 import { Chip8state } from "./Chip8State";
+import { OR_VxVy } from "../instructionSet/OR_VxVy";
 
 export class Chip8Impl implements Chip8 {
 
@@ -120,6 +121,7 @@ export class Chip8Impl implements Chip8 {
                     case 0x0:
                         return new LD_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                     case 0x1:
+                        return new OR_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                         break;
                     case 0x2:
                         break;
