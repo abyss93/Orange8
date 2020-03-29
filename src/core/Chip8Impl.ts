@@ -13,6 +13,7 @@ import { CALL } from "../instructionSet/CALL";
 import { SE_VxByte } from "../instructionSet/SE_VxByte";
 import { SNE_VxByte } from "../instructionSet/SNE_VxByte";
 import { SE_VxVy } from "../instructionSet/SE_VxVy";
+import { LD_VxByte } from "../instructionSet/LD_VxByte";
 
 export class Chip8Impl implements Chip8 {
 
@@ -101,6 +102,11 @@ export class Chip8Impl implements Chip8 {
                 return new SE_VxVy(this.chip8State, vx_0x5, vy_0x5)
                 break;
             case 0x6:
+                let mask6x = 0x0F00
+                let vx_0x6 = (opcode & mask6x) >> 8
+                let mask6_kk = 0x00FF
+                let kk_0x6 = (opcode & mask6_kk)
+                return new LD_VxByte(this.chip8State, vx_0x6, kk_0x6)
                 break;
             case 0x7:
                 break;
