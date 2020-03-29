@@ -8,6 +8,7 @@ import { IDLE } from "../instructionSet/custom/IDLE";
 import { JP } from "../instructionSet/JP";
 import { LD_VxByte } from "../instructionSet/LD_VxByte";
 import { LD_VxVy } from "../instructionSet/LD_VxVy";
+import { OR_VxVy } from "../instructionSet/OR_VxVy";
 import { RET } from "../instructionSet/RET";
 import { SE_VxByte } from "../instructionSet/SE_VxByte";
 import { SE_VxVy } from "../instructionSet/SE_VxVy";
@@ -16,7 +17,7 @@ import { Chip8StateBuilderImpl } from "../utils/Chip8StateBuilderImpl";
 import { Constants } from "../utils/Constants";
 import { Chip8 } from "./Chip8";
 import { Chip8state } from "./Chip8State";
-import { OR_VxVy } from "../instructionSet/OR_VxVy";
+import { AND_VxVy } from "../instructionSet/AND_VxVy";
 
 export class Chip8Impl implements Chip8 {
 
@@ -122,9 +123,8 @@ export class Chip8Impl implements Chip8 {
                         return new LD_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                     case 0x1:
                         return new OR_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
-                        break;
                     case 0x2:
-                        break;
+                        return new AND_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                     case 0x3:
                         break;
                     case 0x4:
