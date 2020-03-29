@@ -15,6 +15,7 @@ import { SNE_VxByte } from "../instructionSet/SNE_VxByte";
 import { SE_VxVy } from "../instructionSet/SE_VxVy";
 import { LD_VxByte } from "../instructionSet/LD_VxByte";
 import { ADD_VxByte } from "../instructionSet/ADD_VxByte";
+import { LD_VxVy } from "../instructionSet/LD_VxVy";
 
 export class Chip8Impl implements Chip8 {
 
@@ -120,6 +121,13 @@ export class Chip8Impl implements Chip8 {
                 let mask8 = 0x000F;
                 let format8 = (opcode & mask8) << 12;
                 switch (format8) {
+                    case 0x0:
+                        let mask8x = 0x0F00
+                        let mask8y = 0x00F0
+                        let vx_0x8_0x0 = (opcode & mask8x) >> 8
+                        let vy_0x8_0x0 = (opcode & mask8y) >> 4
+                        return new LD_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
+                        break;
                     case 0x1:
                         break;
                     case 0x2:
