@@ -12,6 +12,7 @@ import { JP } from "../instructionSet/JP";
 import { CALL } from "../instructionSet/CALL";
 import { SE_VxByte } from "../instructionSet/SE_VxByte";
 import { SNE_VxByte } from "../instructionSet/SNE_VxByte";
+import { SE_VxVy } from "../instructionSet/SE_VxVy";
 
 export class Chip8Impl implements Chip8 {
 
@@ -20,8 +21,8 @@ export class Chip8Impl implements Chip8 {
     private fetcher: Fetcher;
 
     constructor() {
-        this.fetcher = new FetcherImpl
-        this.chip8State = new Chip8state
+        this.fetcher = new FetcherImpl()
+        this.chip8State = new Chip8state()
         this.init()
     }
 
@@ -97,6 +98,7 @@ export class Chip8Impl implements Chip8 {
                 let vx_0x5 = (opcode & mask5x) >> 8
                 let mask5y = 0x00F0
                 let vy_0x5 = (opcode & mask5y) >> 4
+                return new SE_VxVy(this.chip8State, vx_0x5, vy_0x5)
                 break;
             case 0x6:
                 break;
