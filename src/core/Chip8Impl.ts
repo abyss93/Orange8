@@ -80,19 +80,23 @@ export class Chip8Impl implements Chip8 {
                 break;
             case 0x3:
                 let mask3vx = 0x0F00
-                let vx_0x3 = opcode & mask3vx
+                let vx_0x3 = (opcode & mask3vx) >> 8
                 let mask3kk = 0x00FF
                 let kk_0x3 = opcode & mask3kk
                 return new SE_VxByte(this.chip8State, vx_0x3, kk_0x3)
                 break;
             case 0x4:
                 let mask4vx = 0x0F00
-                let vx_0x4 = opcode & mask4vx
+                let vx_0x4 = (opcode & mask4vx) >> 8
                 let mask4kk = 0x00FF
                 let kk_0x4 = opcode & mask4kk
                 return new SNE_VxByte(this.chip8State, vx_0x4, kk_0x4)
                 break;
             case 0x5:
+                let mask5x = 0x0F00
+                let vx_0x5 = (opcode & mask5x) >> 8
+                let mask5y = 0x00F0
+                let vy_0x5 = (opcode & mask5y) >> 4
                 break;
             case 0x6:
                 break;
