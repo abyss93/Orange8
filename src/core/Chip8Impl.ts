@@ -10,6 +10,7 @@ import { CLS } from "../instructionSet/CLS";
 import { RET } from "../instructionSet/RET";
 import { JP } from "../instructionSet/JP";
 import { CALL } from "../instructionSet/CALL";
+import { SE_VxByte } from "../instructionSet/SE_VxByte";
 
 export class Chip8Impl implements Chip8 {
 
@@ -81,6 +82,7 @@ export class Chip8Impl implements Chip8 {
                 let vx = opcode & mask3vx
                 let mask3kk = 0x00FF
                 let kk = opcode & mask3kk
+                return new SE_VxByte(this.chip8State, vx, kk)
                 break;
             case 0x4:
                 break;
