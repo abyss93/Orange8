@@ -75,12 +75,12 @@ export class Chip8Impl implements Chip8 {
                         return new RET(this.chip8State)
                 }
             case 0x1:
-                let mask1 = 0x0FFF
-                let jpAddr = opcode & mask1
-                return new JP(this.chip8State, jpAddr)
+                let mask1Jump = 0x0FFF
+                let jumpTo = opcode & mask1Jump
+                return new JP(this.chip8State, jumpTo)
             case 0x2:
-                let mask2 = 0x0FFF
-                let callAddr = opcode & mask2
+                let mask2Call = 0x0FFF
+                let callAddr = opcode & mask2Call
                 return new CALL(this.chip8State, callAddr)
             case 0x3:
                 let mask3vx = 0x0F00
