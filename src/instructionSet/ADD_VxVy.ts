@@ -1,6 +1,6 @@
 import { Chip8state } from "../core/Chip8State";
+import { FlagRegisterUtils } from "../utils/FlagRegisterUtils";
 import { AbstractInstruction } from "./internal/AbstractInstruction";
-import { Constants } from "../utils/Constants";
 
 export class ADD_VxVy extends AbstractInstruction {
 
@@ -12,8 +12,7 @@ export class ADD_VxVy extends AbstractInstruction {
         this.chip8State.v[this.vx] += this.chip8State.v[this.vy]
         if (this.chip8State.v[this.vx] > 255) {
             this.chip8State.v[this.vx] = 255
-            this.chip8State.v[Constants.FLAG_REGISTER_INDEX] =
-                this.chip8State.v[Constants.FLAG_REGISTER_INDEX] | 0x01
+            new FlagRegisterUtils(this.chip8State).setCarryFlag()
         }
     }
 
