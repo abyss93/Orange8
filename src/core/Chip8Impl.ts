@@ -1,6 +1,8 @@
 import { Fetcher } from "../fetch/Fetcher";
 import { FetcherImpl } from "../fetch/FetcherImpl";
 import { ADD_VxByte } from "../instructionSet/ADD_VxByte";
+import { ADD_VxVy } from "../instructionSet/ADD_VxVy";
+import { AND_VxVy } from "../instructionSet/AND_VxVy";
 import { Instruction } from "../instructionSet/API/Instruction";
 import { CALL } from "../instructionSet/CALL";
 import { CLS } from "../instructionSet/CLS";
@@ -13,12 +15,11 @@ import { RET } from "../instructionSet/RET";
 import { SE_VxByte } from "../instructionSet/SE_VxByte";
 import { SE_VxVy } from "../instructionSet/SE_VxVy";
 import { SNE_VxByte } from "../instructionSet/SNE_VxByte";
+import { XOR_VxVy } from "../instructionSet/XOR_VxVy";
 import { Chip8StateBuilderImpl } from "../utils/Chip8StateBuilderImpl";
 import { Constants } from "../utils/Constants";
 import { Chip8 } from "./Chip8";
 import { Chip8state } from "./Chip8State";
-import { AND_VxVy } from "../instructionSet/AND_VxVy";
-import { XOR_VxVy } from "../instructionSet/XOR_VxVy";
 
 export class Chip8Impl implements Chip8 {
 
@@ -129,7 +130,7 @@ export class Chip8Impl implements Chip8 {
                     case 0x3:
                         return new XOR_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                     case 0x4:
-                        break;
+                        return new ADD_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                     case 0x5:
                         break;
                     case 0x6:
