@@ -49,7 +49,7 @@ describe('ADD VX,Vy 0x8xy4 test: ', () => {
 
         //then
         expect(chip8State.v[vx]).to.be.deep.equals(255)
-        expect(chip8State.v[flagReg]).to.be.deep.equals(flagRegStartValue + 1)
+        expect(chip8State.v[flagReg]).to.be.deep.equals(0x01)
     })
 
     it('VX = VX + VY, result > 8-bit (> 255), Vx stores max value 255, carry flag already SET and REMAIN SET', () => {

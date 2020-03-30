@@ -15,6 +15,7 @@ import { RET } from "../instructionSet/RET";
 import { SE_VxByte } from "../instructionSet/SE_VxByte";
 import { SE_VxVy } from "../instructionSet/SE_VxVy";
 import { SNE_VxByte } from "../instructionSet/SNE_VxByte";
+import { SUB_VxVy } from "../instructionSet/SUB_VxVy";
 import { XOR_VxVy } from "../instructionSet/XOR_VxVy";
 import { Chip8StateBuilderImpl } from "../utils/Chip8StateBuilderImpl";
 import { Constants } from "../utils/Constants";
@@ -132,6 +133,7 @@ export class Chip8Impl implements Chip8 {
                     case 0x4:
                         return new ADD_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                     case 0x5:
+                        return new SUB_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                         break;
                     case 0x6:
                         break;
