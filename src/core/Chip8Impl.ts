@@ -21,6 +21,7 @@ import { Chip8StateBuilderImpl } from "../utils/Chip8StateBuilderImpl";
 import { Constants } from "../utils/Constants";
 import { Chip8 } from "./Chip8";
 import { Chip8state } from "./Chip8State";
+import { SHR_Vx } from "../instructionSet/SHR_Vx";
 
 export class Chip8Impl implements Chip8 {
 
@@ -134,9 +135,8 @@ export class Chip8Impl implements Chip8 {
                         return new ADD_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                     case 0x5:
                         return new SUB_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
-                        break;
                     case 0x6:
-                        break;
+                        return new SHR_Vx(this.chip8State, vx_0x8_0x0)
                     case 0x7:
                         break;
                     case 0xE:
