@@ -25,19 +25,11 @@ export class FlagRegisterUtils {
         this.flags[Constants.FLAG_REGISTER_INDEX] = this.flags[Constants.FLAG_REGISTER_INDEX] & 0b00001101
     }
 
-    public setOverflowFlag() {
+    public setCollisionFlag() {
         this.flags[Constants.FLAG_REGISTER_INDEX] = this.flags[Constants.FLAG_REGISTER_INDEX] | 0b00000100
     }
 
-    public resetOverflowFlag() {
-        this.flags[Constants.FLAG_REGISTER_INDEX] = this.flags[Constants.FLAG_REGISTER_INDEX] & 0b00001011
-    }
-
-    public setCollisionFlag() {
-        this.flags[Constants.FLAG_REGISTER_INDEX] = this.flags[Constants.FLAG_REGISTER_INDEX] | 0b00001000
-    }
-
     public resetCollisionFlag() {
-        this.flags[Constants.FLAG_REGISTER_INDEX] = this.flags[Constants.FLAG_REGISTER_INDEX] & 0b00000111
+        this.flags[Constants.FLAG_REGISTER_INDEX] = this.flags[Constants.FLAG_REGISTER_INDEX] & 0b00001011
     }
 }
