@@ -17,6 +17,7 @@ import { SE_VxVy } from "../instructionSet/SE_VxVy";
 import { SHL_Vx } from "../instructionSet/SHL_Vx";
 import { SHR_Vx } from "../instructionSet/SHR_Vx";
 import { SNE_VxByte } from "../instructionSet/SNE_VxByte";
+import { SUBN_VxVy } from "../instructionSet/SUBN_VxVy";
 import { SUB_VxVy } from "../instructionSet/SUB_VxVy";
 import { XOR_VxVy } from "../instructionSet/XOR_VxVy";
 import { Chip8StateBuilderImpl } from "../utils/Chip8StateBuilderImpl";
@@ -139,7 +140,7 @@ export class Chip8Impl implements Chip8 {
                     case 0x6:
                         return new SHR_Vx(this.chip8State, vx_0x8_0x0)
                     case 0x7:
-                        break;
+                        return new SUBN_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                     case 0xE:
                         return new SHL_Vx(this.chip8State, vx_0x8_0x0)
                 }
