@@ -12,7 +12,7 @@ describe('LD I,addr 0xAnnn test: ', () => {
     let sut: Instruction
 
     it('Write addr in I register', () => {
-        //givenO
+        //given
         chip8State = new Chip8StateBuilderImpl()
             .i(10)
             .build()

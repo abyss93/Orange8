@@ -14,7 +14,7 @@ describe('SNE VX,VY 0x9xy0 test: ', () => {
     let sut: Instruction
 
     it('vx = vy, IP is untouched', () => {
-        //givenO
+        //given
         chip8State = new Chip8StateBuilderImpl()
             .ip(ip)
             .vx(vx, 1)

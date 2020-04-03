@@ -8,11 +8,13 @@ import { CALL } from "../instructionSet/CALL";
 import { CLS } from "../instructionSet/CLS";
 import { IDLE } from "../instructionSet/custom/IDLE";
 import { JP } from "../instructionSet/JP";
+import { JP_V0addr } from "../instructionSet/JP_V0addr";
 import { LD_Iaddr } from "../instructionSet/LD_Iaddr";
 import { LD_VxByte } from "../instructionSet/LD_VxByte";
 import { LD_VxVy } from "../instructionSet/LD_VxVy";
 import { OR_VxVy } from "../instructionSet/OR_VxVy";
 import { RET } from "../instructionSet/RET";
+import { RND_VxByte } from "../instructionSet/RND_VxByte";
 import { SE_VxByte } from "../instructionSet/SE_VxByte";
 import { SE_VxVy } from "../instructionSet/SE_VxVy";
 import { SHL_Vx } from "../instructionSet/SHL_Vx";
@@ -32,6 +34,8 @@ export class Chip8Impl implements Chip8 {
     private chip8State: Chip8state
 
     private fetcher: Fetcher;
+
+    private static readonly randomStrategy = () => Math.round(Math.random() * 255);
 
     constructor() {
         this.fetcher = new FetcherImpl()
@@ -155,12 +159,18 @@ export class Chip8Impl implements Chip8 {
                 return new SNE_VxVy(this.chip8State, vx_0x9, vy_0x9)
             case 0xA:
                 let maskA = 0x0FFF
-                let addr = opcode & maskA
-                return new LD_Iaddr(this.chip8State, addr)
+                let addrA = opcode & maskA
+                return new LD_Iaddr(this.chip8State, addrA)
             case 0xB:
-                break;
+                let maskB = 0x0FFF
+                let addrB = opcode & maskB
+                return new JP_V0addr(this.chip8State, addrB)
             case 0xC:
-                break;
+                let maskCx = 0x0F00
+                let maskCkk = 0x00FF
+                let vx_0xc = (opcode & maskCx) >> 8
+                let kk_0xc = (opcode & maskCkk)
+                return new RND_VxByte(this.chip8State, vx_0xc, kk_0xc, Chip8Impl.randomStrategy);
             case 0xD:
                 break;
             case 0xE:
