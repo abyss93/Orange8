@@ -8,6 +8,7 @@ import { CALL } from "../instructionSet/CALL";
 import { CLS } from "../instructionSet/CLS";
 import { IDLE } from "../instructionSet/custom/IDLE";
 import { JP } from "../instructionSet/JP";
+import { LD_Iaddr } from "../instructionSet/LD_Iaddr";
 import { LD_VxByte } from "../instructionSet/LD_VxByte";
 import { LD_VxVy } from "../instructionSet/LD_VxVy";
 import { OR_VxVy } from "../instructionSet/OR_VxVy";
@@ -17,6 +18,7 @@ import { SE_VxVy } from "../instructionSet/SE_VxVy";
 import { SHL_Vx } from "../instructionSet/SHL_Vx";
 import { SHR_Vx } from "../instructionSet/SHR_Vx";
 import { SNE_VxByte } from "../instructionSet/SNE_VxByte";
+import { SNE_VxVy } from "../instructionSet/SNE_VxVy";
 import { SUBN_VxVy } from "../instructionSet/SUBN_VxVy";
 import { SUB_VxVy } from "../instructionSet/SUB_VxVy";
 import { XOR_VxVy } from "../instructionSet/XOR_VxVy";
@@ -146,9 +148,15 @@ export class Chip8Impl implements Chip8 {
                 }
                 break;
             case 0x9:
-                break;
+                let mask9x = 0x0F00
+                let mask9y = 0x00F0
+                let vx_0x9 = (opcode & mask9x) >> 8
+                let vy_0x9 = (opcode & mask9y) >> 4
+                return new SNE_VxVy(this.chip8State, vx_0x9, vy_0x9)
             case 0xA:
-                break;
+                let maskA = 0x0FFF
+                let addr = opcode & maskA
+                return new LD_Iaddr(this.chip8State, addr)
             case 0xB:
                 break;
             case 0xC:
