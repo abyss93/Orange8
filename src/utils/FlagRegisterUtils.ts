@@ -14,7 +14,7 @@ export class FlagRegisterUtils {
     }
 
     public resetCarryFlag() {
-        this.flags[Constants.FLAG_REGISTER_INDEX] = this.flags[Constants.FLAG_REGISTER_INDEX] & 0b00001110
+        this.flags[Constants.FLAG_REGISTER_INDEX] = this.flags[Constants.FLAG_REGISTER_INDEX] & 0b00000110
     }
 
     public setBorrowFlag() {
@@ -22,7 +22,7 @@ export class FlagRegisterUtils {
     }
 
     public resetBorrowFlag() {
-        this.flags[Constants.FLAG_REGISTER_INDEX] = this.flags[Constants.FLAG_REGISTER_INDEX] & 0b00001101
+        this.flags[Constants.FLAG_REGISTER_INDEX] = this.flags[Constants.FLAG_REGISTER_INDEX] & 0b00000101
     }
 
     public setCollisionFlag() {
@@ -30,6 +30,10 @@ export class FlagRegisterUtils {
     }
 
     public resetCollisionFlag() {
-        this.flags[Constants.FLAG_REGISTER_INDEX] = this.flags[Constants.FLAG_REGISTER_INDEX] & 0b00001011
+        this.flags[Constants.FLAG_REGISTER_INDEX] = this.flags[Constants.FLAG_REGISTER_INDEX] & 0b00000011
+    }
+
+    public isCollision() {
+        return (this.flags[Constants.FLAG_REGISTER_INDEX] & 0b00000100) == 4 ? true : false
     }
 }
