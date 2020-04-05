@@ -1,4 +1,4 @@
-# chip8
+# Chip8
 
 Chip8 è un linguaggio di programmazione interpretato inventato durante gli anni '70 affinchè i programmi con esso scritti potessero girare su vari microcomputers dell'epoca, di conseguenza i programmi scritti in Chip8 girano su una macchina virtuale appositamente creata. Negli anni successivi Chip8 è stato anche portato sui diversi calcolatori grafici.
 
