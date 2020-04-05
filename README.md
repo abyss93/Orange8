@@ -6,7 +6,7 @@ Chip8 è un linguaggio di programmazione interpretato inventato durante gli anni
 Molto vario, da giochi come Pong, Space Invaders, Tetris e Pac-Man a generatori di labirinti e persino una implementazione del Game Of Life. Tutto il software scritto in Chip8 è liberamente reperibile online in quanto di pubblico dominio.
 
 # Perchè chip8?
-Il mondo dell'emulazione delle console da gioco mi ha sempre affascinato, il richiamo ad avvicinarmi nel tempo è sempre stato forte. Dopo tanti anni (e dopo aver finalmente acquisito le competenze) ho finalmente potuto implementare qualcosa che ci si avvicina e che anzi è indicato da tutti come il miglior entry point per il mondo dell'emulazione.
+Il mondo dell'emulazione delle console da gioco mi ha sempre affascinato, il richiamo ad avvicinarmi nel tempo è sempre stato forte. Dopo tanti anni ho finalmente potuto implementare qualcosa che ci si avvicina e che anzi è indicato da tutti come il miglior entry point per il mondo dell'emulazione.
 
 # Considerazioni
 Il lavoro è stato molto istruttivo, ritornano in mente vari concetti di reti logiche e architettura dei calcolatori. L'istruzione che disegna a schermo sfrutta alcune logiche di aritmetica modulare.
