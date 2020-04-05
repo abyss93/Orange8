@@ -14,8 +14,6 @@ export class DRW_VxVyNibble extends AbstractInstruction {
 
 
     execute(): void {
-        this.draw("BEF. DRAW");
-
         // start drawing from this column
         let x = this.chip8State.v[this.vx]
         // start drawing from this row
@@ -59,8 +57,6 @@ export class DRW_VxVyNibble extends AbstractInstruction {
                 }
             }
         }
-
-        this.draw("AFT. DRAW");
     }
 
     draw(reason: string) {
