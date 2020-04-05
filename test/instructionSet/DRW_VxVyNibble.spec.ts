@@ -23,7 +23,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
         return result
     }
 
-    it('Draw a zero starting from row=5,colo=40', () => {
+    it('Draw a zero starting from row=5,col=40; this drawing does not cause any collision, so collision flag is reset', () => {
         //given
         const scr = new Array<number>(Constants.SCREEN_PIXELS);
         for (let i = 0; i < Constants.SCREEN_PIXELS; i++) {
@@ -45,6 +45,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
             .vx(colRegister, 40)
             .vx(rowRegister, 5)
             .i(firstByteOfSpriteMemoryAddress)
+            .vx(Constants.FLAG_REGISTER_INDEX, 4)
             .ram(ram)
             .scr(scr)
             .build()
@@ -65,6 +66,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
         ramIndexes.forEach(index => {
             expect(chip8State.scr[index]).to.be.deep.equals(1)
         })
+        expect(new FlagRegisterUtils(chip8State).isCollision()).to.be.false
     })
 
     it('Sprite exceeding screen width on the right is truncated', () => {
