@@ -21,13 +21,13 @@ describe('CLS 0x00E0 test: ', () => {
 
         sut = new CLS(chip8State)
 
-        draw("BEF. CLS", chip8State)
+        //draw("BEF. CLS", chip8State)
 
         //when
         sut.execute()
 
         //then
-        draw("AFT. CLS", chip8State)
+        //draw("AFT. CLS", chip8State)
         const clearedScreen = new Array<number>(Constants.SCREEN_PIXELS);
         for (let i = 0; i < Constants.SCREEN_PIXELS; i++) {
             clearedScreen[i] = 0
