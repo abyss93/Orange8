@@ -4,7 +4,7 @@ import { Instruction } from "../../src/instructionSet/API/Instruction";
 import { SUB_VxVy } from "../../src/instructionSet/SUB_VxVy";
 import { Chip8StateBuilderImpl } from "../../src/utils/Chip8StateBuilderImpl";
 
-describe('SUB VX,Vy 0x8xy5 test: ', () => {
+describe('SUB VX,VY 0x8xy5 test: ', () => {
 
     let chip8State: Chip8state
     let vx = 6

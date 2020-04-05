@@ -4,7 +4,7 @@ import { Instruction } from "../../src/instructionSet/API/Instruction";
 import { LD_Iaddr } from "../../src/instructionSet/LD_Iaddr";
 import { Chip8StateBuilderImpl } from "../../src/utils/Chip8StateBuilderImpl";
 
-describe('LD I,addr 0xAnnn test: ', () => {
+describe('LD I,Addr 0xAnnn test: ', () => {
 
     const addr = 5
     let chip8State: Chip8state

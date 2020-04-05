@@ -4,7 +4,7 @@ import { ADD_VxVy } from "../../src/instructionSet/ADD_VxVy";
 import { Instruction } from "../../src/instructionSet/API/Instruction";
 import { Chip8StateBuilderImpl } from "../../src/utils/Chip8StateBuilderImpl";
 
-describe('ADD VX,Vy 0x8xy4 test: ', () => {
+describe('ADD VX,VY 0x8xy4 test: ', () => {
 
     let chip8State: Chip8state
     let vx = 6

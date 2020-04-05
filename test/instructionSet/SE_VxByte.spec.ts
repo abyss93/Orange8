@@ -4,7 +4,7 @@ import { Instruction } from "../../src/instructionSet/API/Instruction";
 import { Chip8StateBuilderImpl } from "../../src/utils/Chip8StateBuilderImpl";
 import { SE_VxByte } from "../../src/instructionSet/SE_VxByte";
 
-describe('SE Vx,byte 0x3xkk test: ', () => {
+describe('SE VX,Byte 0x3xkk test: ', () => {
 
     const kk = 0xAB
     const vx = 5

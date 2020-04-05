@@ -1,6 +1,7 @@
 import { Chip8state } from "../core/Chip8State";
-import { AbstractInstruction } from "./internal/AbstractInstruction";
+import { Constants } from "../utils/Constants";
 import { FlagRegisterUtils } from "../utils/FlagRegisterUtils";
+import { AbstractInstruction } from "./internal/AbstractInstruction";
 
 export class DRW_VxVyNibble extends AbstractInstruction {
 
@@ -15,40 +16,45 @@ export class DRW_VxVyNibble extends AbstractInstruction {
     execute(): void {
         this.draw("BEF. DRAW");
 
+        // start drawing from this column
+        let x = this.chip8State.v[this.vx]
+        // start drawing from this row
+        let y = this.chip8State.v[this.vy]
 
-        let x = this.chip8State.v[this.vx] //colonna
-        let y = this.chip8State.v[this.vy] //riga
-
-        if (x >= 64) {
-            x = x % 64
+        // wrap around management
+        if (x >= Constants.SCREEN_WIDTH) {
+            x = x % Constants.SCREEN_WIDTH
         }
-        if (y >= 32) {
-            y = y % 32
-        }
-
-        let spriteWidth = 7
-        if (x + 7 >= 64) {
-            spriteWidth = 64 - x
+        if (y >= Constants.SCREEN_HEIGHT) {
+            y = y % Constants.SCREEN_HEIGHT
         }
 
+        // truncated sprites management
+        let spriteWidth = 8
+        if (x + spriteWidth > Constants.SCREEN_WIDTH) {
+            spriteWidth = Constants.SCREEN_WIDTH - x
+        }
         let spriteHeight = this.bytesToRead
-        if (y + this.bytesToRead >= 32) {
-            spriteHeight = 32 - y
+        if (y + this.bytesToRead >= Constants.SCREEN_HEIGHT) {
+            spriteHeight = Constants.SCREEN_HEIGHT - y
         }
 
-        for (let i = 0; i < spriteHeight; i++) {
-            let spritePart = this.chip8State.ram[this.chip8State.i + i]
-            let spritePartBin: Array<number> = this.toBinInverse(spritePart)
-            for (let j = 0; j < spriteWidth; j++) {
-                const pixelAddress = ((y + i) * 64) + x + j;
+        // row,col => sprite-relative ; x,y will be top-left sprite coordinates in the screen
+        for (let row = 0; row < spriteHeight; row++) {
+            let spriteRow = this.chip8State.ram[this.chip8State.i + row]
+            //I want inverse order because I'm going to start from 0 in the next for cycle
+            let spriteRowBinary: Array<number> = this.toBinInverse(spriteRow)
+            for (let col = 0; col < spriteWidth; col++) {
+                const currentPixelPosition = (y + row) * Constants.SCREEN_WIDTH + x + col;
 
-                let actualPixel = this.chip8State.scr[pixelAddress] // 0 or 1
-                let memoryPixel = spritePartBin[j]
-                const futurePixel = (actualPixel ^ memoryPixel);
-                this.chip8State.scr[pixelAddress] = futurePixel
+                let currentPixelValue = this.chip8State.scr[currentPixelPosition]
+                let spritePixelValue = spriteRowBinary[col]
+                const futurePixelValue = currentPixelValue ^ spritePixelValue;
 
-                // basta trovare una collisione, dopo non occorre che ne verifichi altre
-                if (!this.flagRegisterUtils.isCollision() && futurePixel === 0) {
+                this.chip8State.scr[currentPixelPosition] = futurePixelValue
+
+                // search for collision, when the first is found, do not search anymore
+                if (!this.flagRegisterUtils.isCollision() && futurePixelValue === 0) {
                     this.flagRegisterUtils.setCollisionFlag()
                 }
             }
@@ -77,6 +83,14 @@ export class DRW_VxVyNibble extends AbstractInstruction {
         console.log("\x1b[44m" + "************************************************************************************************************************************")
     }
 
+    /**
+     * converts a number n from base-10 into base-2
+     * returns an array of 0/1 bit in inverse order 
+     * example:
+     * n = 120
+     * returns 0001 1110 instead of 0111 1000
+     * @param n 
+     */
     private toBinInverse(n: number) {
         let result = new Array<number>(8)
         for (let i = 7; i >= 0; i--) {

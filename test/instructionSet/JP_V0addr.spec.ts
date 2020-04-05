@@ -4,7 +4,7 @@ import { Instruction } from "../../src/instructionSet/API/Instruction";
 import { JP_V0addr } from "../../src/instructionSet/JP_V0addr";
 import { Chip8StateBuilderImpl } from "../../src/utils/Chip8StateBuilderImpl";
 
-describe('JP V0,addr 0xBnnn test: ', () => {
+describe('JP V0,Addr 0xBnnn test: ', () => {
 
 
     let chip8State: Chip8state

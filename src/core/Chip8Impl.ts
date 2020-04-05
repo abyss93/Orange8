@@ -7,6 +7,7 @@ import { Instruction } from "../instructionSet/API/Instruction";
 import { CALL } from "../instructionSet/CALL";
 import { CLS } from "../instructionSet/CLS";
 import { IDLE } from "../instructionSet/custom/IDLE";
+import { DRW_VxVyNibble } from "../instructionSet/DRW_VxVyNibble";
 import { JP } from "../instructionSet/JP";
 import { JP_V0addr } from "../instructionSet/JP_V0addr";
 import { LD_Iaddr } from "../instructionSet/LD_Iaddr";
@@ -172,7 +173,13 @@ export class Chip8Impl implements Chip8 {
                 let kk_0xc = (opcode & maskCkk)
                 return new RND_VxByte(this.chip8State, vx_0xc, kk_0xc, Chip8Impl.randomStrategy);
             case 0xD:
-                break;
+                let maskDx = 0x0F00
+                let maskDy = 0x00F0
+                let maskDn = 0x000F
+                let vx_0xd = (opcode & maskDx) >> 8
+                let vy_0xd = (opcode & maskDy) >> 4
+                let n_0xd = opcode & maskDn
+                return new DRW_VxVyNibble(this.chip8State, vx_0xd, vy_0xd, n_0xd)
             case 0xE:
                 let maskE = 0x00FF;
                 let formatE = (opcode & maskE) << 8;

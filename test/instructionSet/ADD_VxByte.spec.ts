@@ -4,7 +4,7 @@ import { ADD_VxByte } from "../../src/instructionSet/ADD_VxByte";
 import { Instruction } from "../../src/instructionSet/API/Instruction";
 import { Chip8StateBuilderImpl } from "../../src/utils/Chip8StateBuilderImpl";
 
-describe('ADD VX,byte 0x7xkk test: ', () => {
+describe('ADD VX,Byte 0x7xkk test: ', () => {
 
     let chip8State: Chip8state
     let vx = 6
