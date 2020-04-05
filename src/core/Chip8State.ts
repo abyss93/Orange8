@@ -39,7 +39,7 @@ export class Chip8state {
     }
 
     public set ram(ram: Array<number>) {
-        if (ram.length > Constants.RAM_SIZE) {
+        if (ram.length != Constants.RAM_SIZE) {
             throw new Error("Invalid RAM size")
         }
         this._ram = ram
@@ -50,7 +50,7 @@ export class Chip8state {
     }
 
     public set v(v: Array<number>) {
-        if (v.length > Constants.NUMBER_OF_GENERAL_REGISTERS) {
+        if (v.length != Constants.NUMBER_OF_GENERAL_REGISTERS) {
             throw new Error("Invalid NUMBER OF GENERAL REGISTERS size")
         }
         this._v = v
@@ -85,7 +85,7 @@ export class Chip8state {
     }
 
     public set stack(stack: Array<number>) {
-        if (stack.length > Constants.STACK_SIZE) {
+        if (stack.length != Constants.STACK_SIZE) {
             throw new Error("Invalid STACK size")
         }
         this._stack = stack
@@ -129,7 +129,7 @@ export class Chip8state {
     }
 
     public set scr(scr: Array<number>) {
-        if (scr.length > Constants.SCREEN_PIXELS) {
+        if (scr.length != Constants.SCREEN_PIXELS) {
             throw new Error("Invalid SCREEN size")
         }
         this._scr = scr

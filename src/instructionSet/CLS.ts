@@ -5,6 +5,10 @@ export class CLS extends AbstractInstruction {
 
     // 0x00E0
     execute() {
-        this.chip8State.scr = new Array<number>(Constants.SCREEN_PIXELS)
+        const clearedScreen = new Array<number>(Constants.SCREEN_PIXELS);
+        for (let i = 0; i < Constants.SCREEN_PIXELS; i++) {
+            clearedScreen[i] = 0
+        }
+        this.chip8State.scr = clearedScreen
     }
 }

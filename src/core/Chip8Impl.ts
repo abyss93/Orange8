@@ -45,14 +45,22 @@ export class Chip8Impl implements Chip8 {
     }
 
     public init(): void {
+        const ram = new Array<number>(Constants.RAM_SIZE);
+        const scr = new Array<number>(Constants.SCREEN_PIXELS);
+        const stack = new Array<number>(Constants.STACK_SIZE);
+        const v = new Array<number>(Constants.NUMBER_OF_GENERAL_REGISTERS);
+        this.initArray(ram);
+        this.initArray(scr);
+        this.initArray(stack);
+        this.initArray(v);
         this.chip8State = new Chip8StateBuilderImpl()
-            .ram(new Array<number>(Constants.RAM_SIZE))
-            .stack(new Array<number>(Constants.STACK_SIZE))
-            .v(new Array<number>(Constants.NUMBER_OF_GENERAL_REGISTERS))
+            .ram(ram)
+            .stack(stack)
+            .v(v)
             .sp(0)
             .ip(0x200)
             .i(0)
-            .scr(new Array<number>(Constants.SCREEN_PIXELS))
+            .scr(scr)
             .delay(0)
             .sound(0)
             .opcode(0)
@@ -60,6 +68,13 @@ export class Chip8Impl implements Chip8 {
 
         // TODO: load fontset in ram
     }
+
+    initArray(arr: Array<number>) {
+        for (let i = 0; i < arr.length; i++) {
+            arr[i] = 0
+        }
+    }
+
 
     public fetch(): void {
         const ip = this.chip8State.ip
