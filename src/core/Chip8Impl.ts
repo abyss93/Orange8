@@ -29,6 +29,7 @@ import { Chip8StateBuilderImpl } from "../utils/Chip8StateBuilderImpl";
 import { Constants } from "../utils/Constants";
 import { Chip8 } from "./Chip8";
 import { Chip8state } from "./Chip8State";
+import { FontsetLoader } from "./FontsetLoader";
 
 export class Chip8Impl implements Chip8 {
 
@@ -66,7 +67,7 @@ export class Chip8Impl implements Chip8 {
             .opcode(0)
             .build()
 
-        // TODO: load fontset in ram
+        FontsetLoader.load(ram)
     }
 
     initArray(arr: Array<number>) {
