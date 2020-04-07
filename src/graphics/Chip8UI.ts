@@ -14,4 +14,13 @@ export class Chip8UI {
     }
 
 
+    public draw(scr: Array<number>): void {
+        for (let row = 0; row < Constants.SCREEN_HEIGHT; row++) {
+            for (let col = 0; col < Constants.SCREEN_WIDTH; col++) {
+                if (scr[row * Constants.SCREEN_WIDTH + col]) {
+                    this.graphicContext?.fillRect(col * Constants.CANVAS_PIXEL_SIZE, row * Constants.CANVAS_PIXEL_SIZE, Constants.CANVAS_PIXEL_SIZE, Constants.CANVAS_PIXEL_SIZE)
+                }
+            }
+        }
+    }
 }

@@ -1,11 +1,15 @@
+import { Instruction } from "../instructionSet/API/Instruction";
 
 export interface Chip8 {
-    init(): void;
+    init(): void
 
-    fetch(): void;
+    load(): void
 
-    decode(): void;
+    fetch(): void
 
-    execute(): void;
+    decode(): Instruction
 
+    execute(instruction: Instruction): void
+
+    getScr(): Array<number>
 }

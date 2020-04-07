@@ -76,6 +76,14 @@ export class Chip8Impl implements Chip8 {
         }
     }
 
+    public load() {
+        const ram = this.chip8State.ram
+        this.chip8State.i = 0x0000 //partiamo dal fontset, inizio della memoria
+        this.chip8State.vx(1, 50) //colonna
+        this.chip8State.vx(2, 10) //riga
+        ram[0x200] = 0xD1 //disegna con x = 0
+        ram[0x200 + 1] = 0x25 //disegna con y = 0 uno sprite lungo 5 byte in memoria
+    }
 
     public fetch(): void {
         const ip = this.chip8State.ip
@@ -236,10 +244,12 @@ export class Chip8Impl implements Chip8 {
         return new IDLE(this.chip8State)
     }
 
-    public execute(): void {
-
+    public execute(instruction: Instruction): void {
+        instruction.execute()
     }
 
-
+    public getScr(): Array<number> {
+        return this.chip8State.scr
+    }
 
 }
