@@ -19,8 +19,8 @@ gulp.task('default', gulp.series(gulp.parallel('copy-html'), function () {
         cache: {},
         packageCache: {}
     })
-    .plugin(tsify)
-    .bundle()
-    .pipe(source('bundle.js'))
-    .pipe(gulp.dest('./dist'));
-}));
+        .plugin(tsify)
+        .bundle()
+        .pipe(source('bundle.js'))
+        .pipe(gulp.dest('./dist'));
+}), gulp.src('./src/index.css').pipe(gulp.dest('./dist')));
