@@ -3,7 +3,7 @@ export class Chip8keyboard {
     private static readonly KEY_UP = 'keyup'
     private static readonly KEY_DOWN = 'keydown'
 
-    private keys = []
+    private keys: boolean[] = []
 
     constructor() {
         window.addEventListener(Chip8keyboard.KEY_UP, (event) => {
