@@ -1,3 +1,4 @@
+import { Bus } from "../bus/Bus";
 import { Fetcher } from "../fetch/Fetcher";
 import { FetcherImpl } from "../fetch/FetcherImpl";
 import { ADD_VxByte } from "../instructionSet/ADD_VxByte";
@@ -34,18 +35,18 @@ import { FontsetLoader } from "./FontsetLoader";
 export class Chip8Impl implements Chip8 {
 
     private chip8State: Chip8state
+    private fetcher: Fetcher
+    private bus: Bus
+    private static readonly randomStrategy = () => Math.round(Math.random() * 255)
 
-    private fetcher: Fetcher;
-
-    private static readonly randomStrategy = () => Math.round(Math.random() * 255);
-
-    constructor() {
+    constructor(bus: Bus) {
         this.fetcher = new FetcherImpl()
         this.chip8State = new Chip8state()
-        this.init()
+        this.bus = bus
+        this.bootstrap()
     }
 
-    public init(): void {
+    public bootstrap(): void {
         const ram = new Array<number>(Constants.RAM_SIZE);
         const scr = new Array<number>(Constants.SCREEN_PIXELS);
         const stack = new Array<number>(Constants.STACK_SIZE);
@@ -76,7 +77,7 @@ export class Chip8Impl implements Chip8 {
         }
     }
 
-    public load() {
+    public loadProgram() {
         const ram = this.chip8State.ram
         this.chip8State.i = 0x0000 //partiamo dal fontset, inizio della memoria
         this.chip8State.vx(1, 50) //colonna
@@ -203,7 +204,7 @@ export class Chip8Impl implements Chip8 {
                 let vx_0xd = (opcode & maskDx) >> 8
                 let vy_0xd = (opcode & maskDy) >> 4
                 let n_0xd = opcode & maskDn
-                return new DRW_VxVyNibble(this.chip8State, vx_0xd, vy_0xd, n_0xd)
+                return new DRW_VxVyNibble(this.bus, this.chip8State, vx_0xd, vy_0xd, n_0xd)
             case 0xE:
                 let maskE = 0x00FF;
                 let formatE = (opcode & maskE) << 8;

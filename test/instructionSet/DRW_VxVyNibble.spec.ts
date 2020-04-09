@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import { BusImpl } from "../../src/bus/BusImpl";
 import { Chip8state } from "../../src/core/Chip8State";
 import { Instruction } from "../../src/instructionSet/API/Instruction";
 import { DRW_VxVyNibble } from "../../src/instructionSet/DRW_VxVyNibble";
@@ -12,6 +13,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
     const rowRegister = 6
     const firstByteOfSpriteMemoryAddress = 0x000
 
+    let bus = new BusImpl()
     let chip8State: Chip8state
     let sut: Instruction
 
@@ -50,7 +52,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
             .scr(scr)
             .build()
 
-        sut = new DRW_VxVyNibble(chip8State, colRegister, rowRegister, 5)
+        sut = new DRW_VxVyNibble(bus, chip8State, colRegister, rowRegister, 5)
 
         //when
         sut.execute()
@@ -93,8 +95,8 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
             .ram(ram)
             .scr(scr)
             .build()
-        sut = new DRW_VxVyNibble(chip8State, colRegister, rowRegister, 5)
-        sut = new DRW_VxVyNibble(chip8State, 5, 6, 5)
+        sut = new DRW_VxVyNibble(bus, chip8State, colRegister, rowRegister, 5)
+        sut = new DRW_VxVyNibble(bus, chip8State, 5, 6, 5)
 
         //when
         sut.execute()
@@ -136,7 +138,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
             .scr(scr)
             .build()
 
-        sut = new DRW_VxVyNibble(chip8State, colRegister, rowRegister, 5)
+        sut = new DRW_VxVyNibble(bus, chip8State, colRegister, rowRegister, 5)
 
         //when
         sut.execute()
@@ -177,7 +179,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
             .scr(scr)
             .build()
 
-        sut = new DRW_VxVyNibble(chip8State, colRegister, rowRegister, 5)
+        sut = new DRW_VxVyNibble(bus, chip8State, colRegister, rowRegister, 5)
 
         //when
         sut.execute()
@@ -219,7 +221,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
             .scr(scr)
             .build()
 
-        sut = new DRW_VxVyNibble(chip8State, colRegister, rowRegister, 5)
+        sut = new DRW_VxVyNibble(bus, chip8State, colRegister, rowRegister, 5)
 
         //when
         sut.execute()
@@ -261,7 +263,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
             .scr(scr)
             .build()
 
-        sut = new DRW_VxVyNibble(chip8State, colRegister, rowRegister, 5)
+        sut = new DRW_VxVyNibble(bus, chip8State, colRegister, rowRegister, 5)
 
         //when
         sut.execute()
@@ -304,7 +306,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
             .scr(scr)
             .build()
 
-        sut = new DRW_VxVyNibble(chip8State, colRegister, rowRegister, 5)
+        sut = new DRW_VxVyNibble(bus, chip8State, colRegister, rowRegister, 5)
 
         //when
         sut.execute()
@@ -347,7 +349,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
             .scr(scr)
             .build()
 
-        sut = new DRW_VxVyNibble(chip8State, colRegister, rowRegister, 5)
+        sut = new DRW_VxVyNibble(bus, chip8State, colRegister, rowRegister, 5)
 
         //when
         sut.execute()
@@ -404,7 +406,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
             .scr(scr)
             .build()
 
-        sut = new DRW_VxVyNibble(chip8State, colRegister, rowRegister, 5)
+        sut = new DRW_VxVyNibble(bus, chip8State, colRegister, rowRegister, 5)
 
         //when
         sut.execute()

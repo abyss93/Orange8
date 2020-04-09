@@ -1,9 +1,9 @@
 import { Instruction } from "../instructionSet/API/Instruction";
 
 export interface Chip8 {
-    init(): void
+    bootstrap(): void
 
-    load(): void
+    loadProgram(): void
 
     fetch(): void
 

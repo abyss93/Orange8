@@ -1,3 +1,5 @@
+import { Bus } from "../bus/Bus";
+import { DrawEvent } from "../bus/events/screen/DrawEvent";
 import { Chip8state } from "../core/Chip8State";
 import { Constants } from "../utils/Constants";
 import { FlagRegisterUtils } from "../utils/FlagRegisterUtils";
@@ -7,7 +9,7 @@ export class DRW_VxVyNibble extends AbstractInstruction {
 
     private flagRegisterUtils: FlagRegisterUtils
 
-    constructor(protected chip8State: Chip8state, private vx: number, private vy: number, private bytesToRead: number) {
+    constructor(private bus: Bus, protected chip8State: Chip8state, private vx: number, private vy: number, private bytesToRead: number) {
         super(chip8State)
         this.flagRegisterUtils = new FlagRegisterUtils(this.chip8State)
     }
@@ -66,6 +68,8 @@ export class DRW_VxVyNibble extends AbstractInstruction {
         if (!collisionFound) {
             this.flagRegisterUtils.resetCollisionFlag()
         }
+
+        this.bus.raise(DrawEvent.ID, new DrawEvent(this.chip8State.scr))
     }
 
     /**
