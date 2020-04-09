@@ -1,4 +1,5 @@
 import { Bus } from "../bus/Bus";
+import { Keyconverter } from "../bus/events/keyboard/KeyConverter";
 import { KeyDownEvent } from "../bus/events/keyboard/KeyDownEvent";
 import { KeyUpEvent } from "../bus/events/keyboard/KeyUpEvent";
 import { StartKeyboardEvent } from "../bus/events/keyboard/ResumeKeyboardEvent";
@@ -15,13 +16,13 @@ export class Chip8keyboard {
     private keyUpCallback = (event: KeyboardEvent): void => {
         //keyup => keys[keyCode] = false
         this.keys[event.keyCode] = (event.type === Constants.KEY_DOWN);
-        this.bus.raise(KeyUpEvent.ID, new KeyUpEvent(event.keyCode));
+        this.bus.raise(KeyUpEvent.ID, new KeyUpEvent(Keyconverter.toChip8Key(event.keyCode)));
     };
 
     private keyDownCallback = (event: KeyboardEvent) => {
         //keydown => keys[keyCode] = true
         this.keys[event.keyCode] = (event.type === Constants.KEY_DOWN)
-        this.bus.raise(KeyDownEvent.ID, new KeyDownEvent(event.keyCode))
+        this.bus.raise(KeyDownEvent.ID, new KeyDownEvent(Keyconverter.toChip8Key(event.keyCode)))
     }
 
     constructor(bus: Bus) {

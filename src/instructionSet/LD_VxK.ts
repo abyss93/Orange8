@@ -1,4 +1,5 @@
 import { Bus } from "../bus/Bus";
+import { Keyconverter } from "../bus/events/keyboard/KeyConverter";
 import { StartKeyboardEvent } from "../bus/events/keyboard/ResumeKeyboardEvent";
 import { StopKeyboardEvent } from "../bus/events/keyboard/SuspendKeyboardEvent";
 import { Chip8state } from "../core/Chip8State";
@@ -11,19 +12,14 @@ export class LD_VxK extends AbstractInstruction {
         super(chip8State)
     }
 
-    private keyPressPromise() {
+    private keyPressPromise(): Promise<KeyboardEvent> {
         return new Promise(resolve => window.addEventListener(Constants.KEY_DOWN, resolve, { once: true }));
     }
 
     async execute(): Promise<void> {
         this.bus.raise(StopKeyboardEvent.ID, new StopKeyboardEvent())
-
         const pressedKey = await this.keyPressPromise()
-
-        //validare il tasto
-
-        this.chip8State.vx[this.vx] = pressedKey
-
+        this.chip8State.vx[this.vx] = Keyconverter.toChip8Key(pressedKey.keyCode)
         this.bus.raise(StartKeyboardEvent.ID, new StartKeyboardEvent())
     }
 
