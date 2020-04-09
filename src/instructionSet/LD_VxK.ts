@@ -17,6 +17,8 @@ export class LD_VxK extends AbstractInstruction {
     }
 
     async execute(): Promise<void> {
+        // this critical section is needed, otherwise two keydowns would be captured, one by this instruction
+        // and one by the keyboard controller
         this.bus.raise(StopKeyboardEvent.ID, new StopKeyboardEvent())
         const pressedKey = await this.keyPressPromise()
         this.chip8State.vx[this.vx] = Keyconverter.toChip8Key(pressedKey.keyCode)
