@@ -9,6 +9,8 @@ export class Constants {
     public static readonly SCREEN_PIXELS: number = Constants.SCREEN_WIDTH * Constants.SCREEN_HEIGHT;
     public static readonly FLAG_REGISTER_INDEX: number = 15;
     public static readonly CANVAS_PIXEL_SIZE = 10
+    public static readonly KEY_UP = 'keyup'
+    public static readonly KEY_DOWN = 'keydown'
 
     private constructor() { }
 
