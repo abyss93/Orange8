@@ -1,36 +1,37 @@
-import { Bus } from "../bus/Bus";
-import { Fetcher } from "../fetch/Fetcher";
-import { FetcherImpl } from "../fetch/FetcherImpl";
-import { ADD_VxByte } from "../instructionSet/ADD_VxByte";
-import { ADD_VxVy } from "../instructionSet/ADD_VxVy";
-import { AND_VxVy } from "../instructionSet/AND_VxVy";
-import { Instruction } from "../instructionSet/API/Instruction";
-import { CALL } from "../instructionSet/CALL";
-import { CLS } from "../instructionSet/CLS";
-import { IDLE } from "../instructionSet/custom/IDLE";
-import { DRW_VxVyNibble } from "../instructionSet/DRW_VxVyNibble";
-import { JP } from "../instructionSet/JP";
-import { JP_V0addr } from "../instructionSet/JP_V0addr";
-import { LD_Iaddr } from "../instructionSet/LD_Iaddr";
-import { LD_VxByte } from "../instructionSet/LD_VxByte";
-import { LD_VxVy } from "../instructionSet/LD_VxVy";
-import { OR_VxVy } from "../instructionSet/OR_VxVy";
-import { RET } from "../instructionSet/RET";
-import { RND_VxByte } from "../instructionSet/RND_VxByte";
-import { SE_VxByte } from "../instructionSet/SE_VxByte";
-import { SE_VxVy } from "../instructionSet/SE_VxVy";
-import { SHL_Vx } from "../instructionSet/SHL_Vx";
-import { SHR_Vx } from "../instructionSet/SHR_Vx";
-import { SNE_VxByte } from "../instructionSet/SNE_VxByte";
-import { SNE_VxVy } from "../instructionSet/SNE_VxVy";
-import { SUBN_VxVy } from "../instructionSet/SUBN_VxVy";
-import { SUB_VxVy } from "../instructionSet/SUB_VxVy";
-import { XOR_VxVy } from "../instructionSet/XOR_VxVy";
-import { Chip8StateBuilderImpl } from "../utils/Chip8StateBuilderImpl";
-import { Constants } from "../utils/Constants";
-import { Chip8 } from "./Chip8";
-import { Chip8state } from "./Chip8State";
-import { FontsetLoader } from "./FontsetLoader";
+import { Bus } from '../bus/Bus';
+import { Fetcher } from '../fetch/Fetcher';
+import { FetcherImpl } from '../fetch/FetcherImpl';
+import { ADD_VxByte } from '../instructionSet/ADD_VxByte';
+import { ADD_VxVy } from '../instructionSet/ADD_VxVy';
+import { AND_VxVy } from '../instructionSet/AND_VxVy';
+import { Instruction } from '../instructionSet/API/Instruction';
+import { CALL } from '../instructionSet/CALL';
+import { CLS } from '../instructionSet/CLS';
+import { IDLE } from '../instructionSet/custom/IDLE';
+import { DRW_VxVyNibble } from '../instructionSet/DRW_VxVyNibble';
+import { JP } from '../instructionSet/JP';
+import { JP_V0addr } from '../instructionSet/JP_V0addr';
+import { LD_Iaddr } from '../instructionSet/LD_Iaddr';
+import { LD_VxByte } from '../instructionSet/LD_VxByte';
+import { LD_VxK } from '../instructionSet/LD_VxK';
+import { LD_VxVy } from '../instructionSet/LD_VxVy';
+import { OR_VxVy } from '../instructionSet/OR_VxVy';
+import { RET } from '../instructionSet/RET';
+import { RND_VxByte } from '../instructionSet/RND_VxByte';
+import { SE_VxByte } from '../instructionSet/SE_VxByte';
+import { SE_VxVy } from '../instructionSet/SE_VxVy';
+import { SHL_Vx } from '../instructionSet/SHL_Vx';
+import { SHR_Vx } from '../instructionSet/SHR_Vx';
+import { SNE_VxByte } from '../instructionSet/SNE_VxByte';
+import { SNE_VxVy } from '../instructionSet/SNE_VxVy';
+import { SUB_VxVy } from '../instructionSet/SUB_VxVy';
+import { SUBN_VxVy } from '../instructionSet/SUBN_VxVy';
+import { XOR_VxVy } from '../instructionSet/XOR_VxVy';
+import { Chip8StateBuilderImpl } from '../utils/Chip8StateBuilderImpl';
+import { Constants } from '../utils/Constants';
+import { Chip8 } from './Chip8';
+import { Chip8state } from './Chip8State';
+import { FontsetLoader } from './FontsetLoader';
 
 export class Chip8Impl implements Chip8 {
 
@@ -222,7 +223,9 @@ export class Chip8Impl implements Chip8 {
                     case 0x07:
                         break;
                     case 0x0A:
-                        break;
+                        let maskAk = 0x0F00
+                        let vx_0x0a = (opcode & maskAk) >> 8
+                        return new LD_VxK(this.bus, this.chip8State, vx_0x0a)
                     case 0x15:
                         break;
                     case 0x18:
@@ -242,15 +245,9 @@ export class Chip8Impl implements Chip8 {
             default:
                 throw new Error("Invalid Instruction OPCODE");
         }
-        return new IDLE(this.chip8State)
     }
 
     public execute(instruction: Instruction): void {
         instruction.execute()
     }
-
-    public getScr(): Array<number> {
-        return this.chip8State.scr
-    }
-
 }

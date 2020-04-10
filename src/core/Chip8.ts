@@ -10,6 +10,4 @@ export interface Chip8 {
     decode(): Instruction
 
     execute(instruction: Instruction): void
-
-    getScr(): Array<number>
 }
