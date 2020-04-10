@@ -1,5 +1,5 @@
 import { Bus } from "../bus/Bus";
-import { Keyconverter } from "../bus/events/keyboard/KeyConverter";
+import { Keyconverter } from "../utils/KeyConverter";
 import { StartKeyboardEvent } from "../bus/events/keyboard/ResumeKeyboardEvent";
 import { StopKeyboardEvent } from "../bus/events/keyboard/SuspendKeyboardEvent";
 import { Chip8state } from "../core/Chip8State";
@@ -21,7 +21,7 @@ export class LD_VxK extends AbstractInstruction {
         // and one by the keyboard controller
         this.bus.raise(StopKeyboardEvent.ID, new StopKeyboardEvent())
         const pressedKey = await this.keyPressPromise()
-        this.chip8State.vx[this.vx] = Keyconverter.toChip8Key(pressedKey.keyCode)
+        this.chip8State.v[this.vx] = Keyconverter.toChip8Key(pressedKey.keyCode)
         this.bus.raise(StartKeyboardEvent.ID, new StartKeyboardEvent())
     }
 

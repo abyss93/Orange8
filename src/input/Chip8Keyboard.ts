@@ -1,13 +1,14 @@
 import { Bus } from "../bus/Bus";
-import { Keyconverter } from "../bus/events/keyboard/KeyConverter";
 import { KeyDownEvent } from "../bus/events/keyboard/KeyDownEvent";
 import { KeyUpEvent } from "../bus/events/keyboard/KeyUpEvent";
+import { RequestPressedKeysEvent } from "../bus/events/keyboard/RequestPressedKeysEvent";
 import { StartKeyboardEvent } from "../bus/events/keyboard/ResumeKeyboardEvent";
+import { ResponsePressedKeysEvent } from "../bus/events/keyboard/ResponsePressedKeysEvent";
 import { StopKeyboardEvent } from "../bus/events/keyboard/SuspendKeyboardEvent";
 import { Constants } from "../utils/Constants";
+import { Keyconverter } from "../utils/KeyConverter";
 
 export class Chip8keyboard {
-
 
     private bus: Bus
 
@@ -30,6 +31,7 @@ export class Chip8keyboard {
         this.startKeyboardEvent()
         this.bus.subscribe(StopKeyboardEvent.ID, () => this.startKeyboardEvent())
         this.bus.subscribe(StartKeyboardEvent.ID, () => this.stopKeyboardEvent())
+        this.bus.subscribe(RequestPressedKeysEvent.ID, () => this.sendPressedKeys())
     }
 
     startKeyboardEvent(): void {
@@ -42,7 +44,8 @@ export class Chip8keyboard {
         window.removeEventListener(Constants.KEY_DOWN, this.keyDownCallback)
     }
 
-    public getKeys() {
-        return this.keys
+    sendPressedKeys(): void {
+        this.bus.raise(ResponsePressedKeysEvent.ID, new ResponsePressedKeysEvent(this.keys))
     }
+
 }

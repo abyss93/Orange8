@@ -7,7 +7,6 @@ import { AND_VxVy } from '../instructionSet/AND_VxVy';
 import { Instruction } from '../instructionSet/API/Instruction';
 import { CALL } from '../instructionSet/CALL';
 import { CLS } from '../instructionSet/CLS';
-import { IDLE } from '../instructionSet/custom/IDLE';
 import { DRW_VxVyNibble } from '../instructionSet/DRW_VxVyNibble';
 import { JP } from '../instructionSet/JP';
 import { JP_V0addr } from '../instructionSet/JP_V0addr';
@@ -24,9 +23,11 @@ import { SHL_Vx } from '../instructionSet/SHL_Vx';
 import { SHR_Vx } from '../instructionSet/SHR_Vx';
 import { SNE_VxByte } from '../instructionSet/SNE_VxByte';
 import { SNE_VxVy } from '../instructionSet/SNE_VxVy';
-import { SUB_VxVy } from '../instructionSet/SUB_VxVy';
 import { SUBN_VxVy } from '../instructionSet/SUBN_VxVy';
+import { SUB_VxVy } from '../instructionSet/SUB_VxVy';
 import { XOR_VxVy } from '../instructionSet/XOR_VxVy';
+import { SKP_Vx } from '../instructionSet/SKP_Vx';
+import { SKNP_Vx } from '../instructionSet/SKNP_Vx';
 import { Chip8StateBuilderImpl } from '../utils/Chip8StateBuilderImpl';
 import { Constants } from '../utils/Constants';
 import { Chip8 } from './Chip8';
@@ -209,11 +210,13 @@ export class Chip8Impl implements Chip8 {
             case 0xE:
                 let maskE = 0x00FF;
                 let formatE = (opcode & maskE) << 8;
+                let maskEx = 0x0F00
+                let vx_0xE = (opcode & maskEx) >> 8
                 switch (formatE) {
-                    case 0x9e:
-                        break;
-                    case 0xa1:
-                        break;
+                    case 0x9E:
+                        return new SKP_Vx(this.bus, this.chip8State, vx_0xE)
+                    case 0xAE:
+                        return new SKNP_Vx(this.bus, this.chip8State, vx_0xE)
                 }
                 break;
             case 0xF:
