@@ -21,15 +21,23 @@ import { SE_VxByte } from '../instructionSet/SE_VxByte';
 import { SE_VxVy } from '../instructionSet/SE_VxVy';
 import { SHL_Vx } from '../instructionSet/SHL_Vx';
 import { SHR_Vx } from '../instructionSet/SHR_Vx';
+import { SKNP_Vx } from '../instructionSet/SKNP_Vx';
+import { SKP_Vx } from '../instructionSet/SKP_Vx';
 import { SNE_VxByte } from '../instructionSet/SNE_VxByte';
 import { SNE_VxVy } from '../instructionSet/SNE_VxVy';
 import { SUBN_VxVy } from '../instructionSet/SUBN_VxVy';
 import { SUB_VxVy } from '../instructionSet/SUB_VxVy';
 import { XOR_VxVy } from '../instructionSet/XOR_VxVy';
-import { SKP_Vx } from '../instructionSet/SKP_Vx';
-import { SKNP_Vx } from '../instructionSet/SKNP_Vx';
 import { Chip8StateBuilderImpl } from '../utils/Chip8StateBuilderImpl';
 import { Constants } from '../utils/Constants';
+import { ADD_IVx } from './../instructionSet/ADD_IVx';
+import { LD_AllRegsVx } from './../instructionSet/LD_AllRegsVx';
+import { LD_BVx } from './../instructionSet/LD_BVx';
+import { LD_DTVx } from './../instructionSet/LD_DTVx';
+import { LD_FVx } from './../instructionSet/LD_FVx';
+import { LD_STVx } from './../instructionSet/LD_STVx';
+import { LD_VxAllRegs } from './../instructionSet/LD_VxAllReg';
+import { LD_VxDT } from './../instructionSet/LD_VxDT';
 import { Chip8 } from './Chip8';
 import { Chip8state } from './Chip8State';
 import { FontsetLoader } from './FontsetLoader';
@@ -222,27 +230,27 @@ export class Chip8Impl implements Chip8 {
             case 0xF:
                 let maskF = 0x00FF;
                 let formatF = (opcode & maskF) << 8;
+                let maskFx = 0x0F00
+                let vx_0xF = (opcode & maskF) >> 8
                 switch (formatF) {
                     case 0x07:
-                        break;
+                        return new LD_VxDT(this.chip8State, vx_0xF)
                     case 0x0A:
-                        let maskAk = 0x0F00
-                        let vx_0x0a = (opcode & maskAk) >> 8
-                        return new LD_VxK(this.bus, this.chip8State, vx_0x0a)
+                        return new LD_VxK(this.bus, this.chip8State, vx_0xF)
                     case 0x15:
-                        break;
+                        return new LD_DTVx(this.chip8State, vx_0xF)
                     case 0x18:
-                        break;
+                        return new LD_STVx(this.chip8State, vx_0xF)
                     case 0x1E:
-                        break;
+                        return new ADD_IVx(this.chip8State, vx_0xF)
                     case 0x29:
-                        break;
+                        return new LD_FVx(this.chip8State, vx_0xF)
                     case 0x33:
-                        break;
+                        return new LD_BVx(this.chip8State, vx_0xF)
                     case 0x55:
-                        break;
+                        return new LD_AllRegsVx(this.chip8State, vx_0xF)
                     case 0x65:
-                        break;
+                        return new LD_VxAllRegs(this.chip8State, vx_0xF)
                 }
                 break;
             default:

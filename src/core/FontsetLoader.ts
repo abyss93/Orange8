@@ -1,5 +1,7 @@
 export class FontsetLoader {
 
+    public static readonly DEFAULT_FONT_HEIGHT = 5 // in bytes
+
     private static readonly ZERO = [
         0b11110000,
         0b10010000,
