@@ -184,7 +184,7 @@ export class Chip8Impl implements Chip8 {
                     case 0x5:
                         return new SUB_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                     case 0x6:
-                        return new SHR_Vx(this.chip8State, vx_0x8_0x0)
+                        return new SHR_Vx(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                     case 0x7:
                         return new SUBN_VxVy(this.chip8State, vx_0x8_0x0, vy_0x8_0x0)
                     case 0xE:

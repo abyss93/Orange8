@@ -6,19 +6,16 @@ export class SHR_Vx extends AbstractInstruction {
 
     private static LEAST_SIGNIFICANT_BIT_MASK = 0x01
 
-    constructor(protected chip8State: Chip8state, private vx: number) {
+    constructor(protected chip8State: Chip8state, private vx: number, private vy: number) {
         super(chip8State)
     }
 
     execute(): void {
-        let least_significant_bit = this.chip8State.v[this.vx] & SHR_Vx.LEAST_SIGNIFICANT_BIT_MASK
-        const flagRegisterUtils = new FlagRegisterUtils(this.chip8State);
-        if (least_significant_bit === 0) {
-            flagRegisterUtils.resetCarryFlag()
-        } else if (least_significant_bit === 1) {
-            flagRegisterUtils.setCarryFlag()
+        let flags = new FlagRegisterUtils(this.chip8State)
+        if ((this.chip8State.v[this.vx] & 0x01) === 1) {
+            flags.setCarryFlag()
         } else {
-            throw new Error("Invalid least significant bit value: " + least_significant_bit)
+            flags.resetCarryFlag()
         }
         this.chip8State.v[this.vx] = this.chip8State.v[this.vx] >> 1
     }

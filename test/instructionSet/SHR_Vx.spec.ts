@@ -8,6 +8,7 @@ import { Constants } from "../../src/utils/Constants";
 describe('SHR VX 0x8xy6 test: ', () => {
 
     let vx = 6
+    let vy = 7
     let chip8State: Chip8state
 
     let sut: Instruction
@@ -18,7 +19,7 @@ describe('SHR VX 0x8xy6 test: ', () => {
             .vx(vx, 127) //odd => least sign bit is 1
             .vx(Constants.FLAG_REGISTER_INDEX, 0x00) //flag 0
             .build()
-        sut = new SHR_Vx(chip8State, vx)
+        sut = new SHR_Vx(chip8State, vx, vy)
 
         //when
         sut.execute()
@@ -34,7 +35,7 @@ describe('SHR VX 0x8xy6 test: ', () => {
             .vx(vx, 127) //odd => least sign bit is 1
             .vx(Constants.FLAG_REGISTER_INDEX, 0x01) //flag 1
             .build()
-        sut = new SHR_Vx(chip8State, vx)
+        sut = new SHR_Vx(chip8State, vx, vy)
 
         //when
         sut.execute()
@@ -50,7 +51,7 @@ describe('SHR VX 0x8xy6 test: ', () => {
             .vx(vx, 128) //2 ** 7 = 128, only 7th bit is 1
             .vx(Constants.FLAG_REGISTER_INDEX, 0x00) //flag 0
             .build()
-        sut = new SHR_Vx(chip8State, vx)
+        sut = new SHR_Vx(chip8State, vx, vy)
 
         //when
         sut.execute()
@@ -66,7 +67,7 @@ describe('SHR VX 0x8xy6 test: ', () => {
             .vx(vx, 128) //2 ** 7 = 128, only 7th bit is 1
             .vx(Constants.FLAG_REGISTER_INDEX, 0x01) //flag 1
             .build()
-        sut = new SHR_Vx(chip8State, vx)
+        sut = new SHR_Vx(chip8State, vx, vy)
 
         //when
         sut.execute()
