@@ -9,13 +9,13 @@ export class ADD_VxVy extends AbstractInstruction {
     }
 
     execute(): void {
-        this.chip8State.v[this.vx] += this.chip8State.v[this.vy]
-        if (this.chip8State.v[this.vx] > 255) {
-            this.chip8State.v[this.vx] = 255
+        let sum = this.chip8State.v[this.vx] + this.chip8State.v[this.vy]
+        if (sum > 255) {
             new FlagRegisterUtils(this.chip8State).setCarryFlag()
         } else {
             new FlagRegisterUtils(this.chip8State).resetCarryFlag()
         }
+        this.chip8State.v[this.vx] = sum & 0xFF
     }
 
 }
