@@ -1,5 +1,6 @@
 export class Constants {
 
+    public static readonly FIRST_RAM_AVAILABLE_ADDRESS = 0x200
     public static readonly RAM_CELL_SIZE_IN_BIT = 8
     public static readonly RAM_SIZE: number = 4096;
     public static readonly STACK_SIZE: number = 16;

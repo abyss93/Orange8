@@ -22,8 +22,10 @@ export class Chip8UI {
     private draw(scr: Array<number>): void {
         for (let row = 0; row < Constants.SCREEN_HEIGHT; row++) {
             for (let col = 0; col < Constants.SCREEN_WIDTH; col++) {
-                if (scr[row * Constants.SCREEN_WIDTH + col]) {
+                if (scr[row * Constants.SCREEN_WIDTH + col] === 1) {
                     this.graphicContext?.fillRect(col * Constants.CANVAS_PIXEL_SIZE, row * Constants.CANVAS_PIXEL_SIZE, Constants.CANVAS_PIXEL_SIZE, Constants.CANVAS_PIXEL_SIZE)
+                } else {
+                    this.graphicContext?.clearRect(col * Constants.CANVAS_PIXEL_SIZE, row * Constants.CANVAS_PIXEL_SIZE, Constants.CANVAS_PIXEL_SIZE, Constants.CANVAS_PIXEL_SIZE)
                 }
             }
         }

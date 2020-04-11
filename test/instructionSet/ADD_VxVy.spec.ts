@@ -32,6 +32,26 @@ describe('ADD VX,VY 0x8xy4 test: ', () => {
         expect(chip8State.v[flagReg]).to.be.deep.equals(flagRegStartValue)
     })
 
+    it('VX = VX + VY, result < 8-bit (< 255), Vx updated, carry flag RESET', () => {
+        //given
+        const vxStartValue = 70;
+        const vyStartValue = 38;
+        const flagRegStartValue = 0x01;
+        chip8State = new Chip8StateBuilderImpl()
+            .vx(vx, vxStartValue)
+            .vx(vy, vyStartValue)
+            .vx(flagReg, flagRegStartValue)
+            .build()
+        sut = new ADD_VxVy(chip8State, vx, vy)
+
+        //when
+        sut.execute()
+
+        //then
+        expect(chip8State.v[vx]).to.be.deep.equals(vxStartValue + vyStartValue)
+        expect(chip8State.v[flagReg]).to.be.deep.equals(0x0)
+    })
+
     it('VX = VX + VY, result > 8-bit (> 255), Vx stores max value 255, carry flag SET', () => {
         //given
         const vxStartValue = 250;

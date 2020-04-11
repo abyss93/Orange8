@@ -10,8 +10,8 @@ export class LD_BVx extends AbstractInstruction {
     execute(): void {
         let startValue = this.chip8State.v[this.vx]
         let units = startValue % 10
-        let tens = (startValue / 10) % 10
-        let hundreds = (startValue / 100) % 100
+        let tens = Math.trunc((startValue / 10)) % 10
+        let hundreds = Math.trunc((startValue / 100)) % 100
         this.chip8State.ram[this.chip8State.i] = hundreds
         this.chip8State.ram[this.chip8State.i + 1] = tens
         this.chip8State.ram[this.chip8State.i + 2] = units

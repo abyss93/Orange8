@@ -4,6 +4,7 @@ import { Chip8 } from "./core/Chip8";
 import { Chip8Impl } from "./core/Chip8Impl";
 import { Chip8UI } from "./graphics/Chip8UI";
 import { Chip8keyboard } from "./input/Chip8Keyboard";
+import { ROMReader } from './input/ROMReader';
 
 export class Main {
 
@@ -13,15 +14,21 @@ export class Main {
         let cpu: Chip8 = new Chip8Impl(bus)
         let gpu: Chip8UI = new Chip8UI(bus)
         let keyBoardController: Chip8keyboard = new Chip8keyboard(bus)
+        let fileReader = new ROMReader()
 
         cpu.bootstrap()
-        cpu.loadProgram()
+        let romPromise = fileReader.loadRomFile()
+        romPromise.then(rom => {
+            cpu.loadProgram(rom)
 
-        //while (true) {    game cycle
-        // fetch -> decode -> execute
-        cpu.fetch()
-        cpu.execute(cpu.decode())
-        //}
+            setInterval(() => {
+                cpu.fetch()
+                let instruction = cpu.decode()
+                cpu.execute(instruction)
+            }, 2)
+        })
+
+
     }
 }
 

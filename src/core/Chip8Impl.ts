@@ -53,7 +53,6 @@ export class Chip8Impl implements Chip8 {
         this.fetcher = new FetcherImpl()
         this.chip8State = new Chip8state()
         this.bus = bus
-        this.bootstrap()
     }
 
     public bootstrap(): void {
@@ -70,7 +69,7 @@ export class Chip8Impl implements Chip8 {
             .stack(stack)
             .v(v)
             .sp(0)
-            .ip(0x200)
+            .ip(Constants.FIRST_RAM_AVAILABLE_ADDRESS)
             .i(0)
             .scr(scr)
             .delay(0)
@@ -87,19 +86,24 @@ export class Chip8Impl implements Chip8 {
         }
     }
 
-    public loadProgram() {
-        const ram = this.chip8State.ram
-        this.chip8State.i = 0x0000 //partiamo dal fontset, inizio della memoria
-        this.chip8State.vx(1, 50) //colonna
-        this.chip8State.vx(2, 10) //riga
-        ram[0x200] = 0xD1 //disegna con x = 0
-        ram[0x200 + 1] = 0x25 //disegna con y = 0 uno sprite lungo 5 byte in memoria
+    public loadProgram(rom: Uint8Array) {
+        for (let i = 0; i < rom.length; i++) {
+            this.chip8State.ram[Constants.FIRST_RAM_AVAILABLE_ADDRESS + i] = rom[i]
+        }
     }
 
     public fetch(): void {
         const ip = this.chip8State.ip
         const ram = this.chip8State.ram
         this.chip8State.opcode = this.fetcher.fetch(ip, ram)
+
+        if (this.chip8State.delay > 0) {
+            this.chip8State.delay -= 1
+        }
+
+        if (this.chip8State.sound > 0) {
+            this.chip8State.sound -= 1
+        }
     }
 
     public decode(): Instruction {
@@ -114,7 +118,7 @@ export class Chip8Impl implements Chip8 {
         switch (format) {
             case 0x0:
                 let mask0 = 0x00FF;
-                let format0 = (opcode & mask0) << 8;
+                let format0 = opcode & mask0;
                 switch (format0) {
                     case 0xE0:
                         return new CLS(this.chip8State)
@@ -161,7 +165,7 @@ export class Chip8Impl implements Chip8 {
                 return new ADD_VxByte(this.chip8State, vx_0x7, kk_0x7)
             case 0x8:
                 let mask8 = 0x000F;
-                let format8 = (opcode & mask8) << 12;
+                let format8 = opcode & mask8;
                 let mask8x = 0x0F00
                 let mask8y = 0x00F0
                 let vx_0x8_0x0 = (opcode & mask8x) >> 8
@@ -217,21 +221,21 @@ export class Chip8Impl implements Chip8 {
                 return new DRW_VxVyNibble(this.bus, this.chip8State, vx_0xd, vy_0xd, n_0xd)
             case 0xE:
                 let maskE = 0x00FF;
-                let formatE = (opcode & maskE) << 8;
+                let formatE = opcode & maskE
                 let maskEx = 0x0F00
                 let vx_0xE = (opcode & maskEx) >> 8
                 switch (formatE) {
                     case 0x9E:
                         return new SKP_Vx(this.bus, this.chip8State, vx_0xE)
-                    case 0xAE:
+                    case 0xA1:
                         return new SKNP_Vx(this.bus, this.chip8State, vx_0xE)
                 }
                 break;
             case 0xF:
                 let maskF = 0x00FF;
-                let formatF = (opcode & maskF) << 8;
+                let formatF = opcode & maskF;
                 let maskFx = 0x0F00
-                let vx_0xF = (opcode & maskF) >> 8
+                let vx_0xF = (opcode & maskFx) >> 8
                 switch (formatF) {
                     case 0x07:
                         return new LD_VxDT(this.chip8State, vx_0xF)
@@ -256,6 +260,7 @@ export class Chip8Impl implements Chip8 {
             default:
                 throw new Error("Invalid Instruction OPCODE");
         }
+        throw new Error("Invalid Instruction OPCODE");
     }
 
     public execute(instruction: Instruction): void {

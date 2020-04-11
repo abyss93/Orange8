@@ -40,7 +40,7 @@ export class DRW_VxVyNibble extends AbstractInstruction {
             spriteHeight = Constants.SCREEN_HEIGHT - y
         }
 
-        let collisionFound: boolean = false
+        this.flagRegisterUtils.resetCollisionFlag()
 
         // row,col => sprite-relative ; x,y will be top-left sprite coordinates in the screen
         for (let row = 0; row < spriteHeight; row++) {
@@ -52,21 +52,13 @@ export class DRW_VxVyNibble extends AbstractInstruction {
 
                 let currentPixelValue = this.chip8State.scr[currentPixelPosition]
                 let spritePixelValue = spriteRowBinary[col]
-                const futurePixelValue = currentPixelValue ^ spritePixelValue;
-
-                this.chip8State.scr[currentPixelPosition] = futurePixelValue
+                this.chip8State.scr[currentPixelPosition] = currentPixelValue ^ spritePixelValue
 
                 // search for collision, when the first is found, do not search anymore
-                if (!this.flagRegisterUtils.isCollision() && futurePixelValue === 0) {
-                    collisionFound = true
+                if (currentPixelValue === 1 && spritePixelValue === 1) {
                     this.flagRegisterUtils.setCollisionFlag()
                 }
             }
-        }
-
-        //if sprite drawing has not caused collision, reset collision flag
-        if (!collisionFound) {
-            this.flagRegisterUtils.resetCollisionFlag()
         }
 
         this.bus.raise(DrawEvent.ID, new DrawEvent(this.chip8State.scr))
@@ -87,6 +79,19 @@ export class DRW_VxVyNibble extends AbstractInstruction {
             n = Math.floor(n / 2)
         }
         return result
+    }
+
+    draw2(reason: string) {
+        console.log("START***************************************************************************************************************************")
+        for (let i = 0; i < 32; i++) {
+            let row = ""
+            for (let j = 0; j < 64; j++) {
+                const pixel = this.chip8State.scr[(i * 64) + j];
+                row += "" + pixel + " "
+            }
+            console.log(row)
+        }
+        console.log("END***************************************************************************************************************************")
     }
 
     draw(reason: string) {

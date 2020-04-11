@@ -13,6 +13,8 @@ export class ADD_VxVy extends AbstractInstruction {
         if (this.chip8State.v[this.vx] > 255) {
             this.chip8State.v[this.vx] = 255
             new FlagRegisterUtils(this.chip8State).setCarryFlag()
+        } else {
+            new FlagRegisterUtils(this.chip8State).resetCarryFlag()
         }
     }
 

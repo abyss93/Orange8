@@ -47,7 +47,7 @@ describe('DRW Vx,Vy,nibble 0xDxyn test: ', () => {
             .vx(colRegister, 40)
             .vx(rowRegister, 5)
             .i(firstByteOfSpriteMemoryAddress)
-            .vx(Constants.FLAG_REGISTER_INDEX, 4)
+            .vx(Constants.FLAG_REGISTER_INDEX, 1)
             .ram(ram)
             .scr(scr)
             .build()

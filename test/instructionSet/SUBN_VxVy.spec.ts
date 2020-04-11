@@ -29,7 +29,7 @@ describe('SUBN VX,VY 0x8xy7 test: ', () => {
 
         //then
         expect(chip8State.v[vx]).to.be.deep.equals(vyStartValue - vxStartValue)
-        expect(chip8State.v[flagReg]).to.be.deep.equals(0x02)
+        expect(chip8State.v[flagReg]).to.be.deep.equals(0x01)
     })
 
 
@@ -37,7 +37,7 @@ describe('SUBN VX,VY 0x8xy7 test: ', () => {
         //given
         const vxStartValue = 38;
         const vyStartValue = 70;
-        const flagRegStartValue = 0x02;
+        const flagRegStartValue = 0x01;
         chip8State = new Chip8StateBuilderImpl()
             .vx(vx, vxStartValue)
             .vx(vy, vyStartValue)
@@ -50,7 +50,7 @@ describe('SUBN VX,VY 0x8xy7 test: ', () => {
 
         //then
         expect(chip8State.v[vx]).to.be.deep.equals(vyStartValue - vxStartValue)
-        expect(chip8State.v[flagReg]).to.be.deep.equals(0x02)
+        expect(chip8State.v[flagReg]).to.be.deep.equals(0x01)
     })
 
     it('F=0) VX = VY - VX, VY < VX, Vx updated, carry flag RESET', () => {
