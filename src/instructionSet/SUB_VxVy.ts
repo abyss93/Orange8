@@ -15,7 +15,8 @@ export class SUB_VxVy extends AbstractInstruction {
         } else {
             flagRegisterUtils.resetBorrowFlag()
         }
-        this.chip8State.v[this.vx] -= this.chip8State.v[this.vy]
+        let sub = this.chip8State.v[this.vx] - this.chip8State.v[this.vy]
+        this.chip8State.v[this.vx] = sub & 0xFF
     }
 
 }

@@ -68,7 +68,7 @@ describe('SUB VX,VY 0x8xy5 test: ', () => {
         sut.execute()
 
         //then
-        expect(chip8State.v[vx]).to.be.deep.equals(vxStartValue - vyStartValue)
+        expect(chip8State.v[vx]).to.be.deep.equals(156)
         expect(chip8State.v[flagReg]).to.be.deep.equals(0x00)
     })
 
@@ -88,7 +88,7 @@ describe('SUB VX,VY 0x8xy5 test: ', () => {
         sut.execute()
 
         //then
-        expect(chip8State.v[vx]).to.be.deep.equals(vxStartValue - vyStartValue)
+        expect(chip8State.v[vx]).to.be.deep.equals(156)
         expect(chip8State.v[flagReg]).to.be.deep.equals(0x00)
     })
 })
