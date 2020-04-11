@@ -8,10 +8,9 @@ export class ADD_VxByte extends AbstractInstruction {
     }
 
     execute(): void {
-        this.chip8State.v[this.vx] += this.kk
-        if (this.chip8State.v[this.vx] > 255) {
-            this.chip8State.v[this.vx] = 255
-        }
+        let sum = this.chip8State.v[this.vx] + this.kk
+        let leastSignificantByte = sum & 0xFF
+        this.chip8State.v[this.vx] = leastSignificantByte
     }
 
 }

@@ -27,10 +27,10 @@ describe('ADD VX,Byte 0x7xkk test: ', () => {
         expect(chip8State.v[vx]).to.be.deep.equals(vxStartValue + toSum)
     })
 
-    it('add kk to VX, result > 8-bit (> 255), Vx stores max value 255, carry flag NOT set', () => {
+    it('add kk to VX, result > 8-bit (> 255), Vx stores only least significant byte, carry flag ignored', () => {
         //given
-        const vxStartValue = 128;
-        const toSum = 300;
+        const vxStartValue = 43;
+        const toSum = 255;
         const flagRegStartValue = 0x00;
         chip8State = new Chip8StateBuilderImpl()
             .vx(vx, vxStartValue)
@@ -42,7 +42,7 @@ describe('ADD VX,Byte 0x7xkk test: ', () => {
         sut.execute()
 
         //then
-        expect(chip8State.v[vx]).to.be.deep.equals(255)
+        expect(chip8State.v[vx]).to.be.deep.equals(42)
         expect(chip8State.v[flagReg]).to.be.deep.equals(flagRegStartValue)
     })
 
