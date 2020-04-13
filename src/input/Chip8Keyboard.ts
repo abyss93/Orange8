@@ -29,8 +29,8 @@ export class Chip8keyboard {
     constructor(bus: Bus) {
         this.bus = bus
         this.startKeyboardEvent()
-        this.bus.subscribe(StopKeyboardEvent.ID, () => this.startKeyboardEvent())
-        this.bus.subscribe(StartKeyboardEvent.ID, () => this.stopKeyboardEvent())
+        this.bus.subscribe(StopKeyboardEvent.ID, () => this.stopKeyboardEvent())
+        this.bus.subscribe(StartKeyboardEvent.ID, () => this.startKeyboardEvent())
         this.bus.subscribe(RequestPressedKeysEvent.ID, () => this.sendPressedKeys())
     }
 

@@ -1,4 +1,5 @@
 import { Bus } from '../bus/Bus';
+import { IDLEEvent } from '../bus/events/IDLEEvent';
 import { Fetcher } from '../fetch/Fetcher';
 import { FetcherImpl } from '../fetch/FetcherImpl';
 import { ADD_VxByte } from '../instructionSet/ADD_VxByte';
@@ -30,7 +31,9 @@ import { SUB_VxVy } from '../instructionSet/SUB_VxVy';
 import { XOR_VxVy } from '../instructionSet/XOR_VxVy';
 import { Chip8StateBuilderImpl } from '../utils/Chip8StateBuilderImpl';
 import { Constants } from '../utils/Constants';
+import { RESUMEEvent } from './../bus/events/RESUMEEvent';
 import { ADD_IVx } from './../instructionSet/ADD_IVx';
+import { IDLE } from './../instructionSet/custom/IDLE';
 import { LD_AllRegsVx } from './../instructionSet/LD_AllRegsVx';
 import { LD_BVx } from './../instructionSet/LD_BVx';
 import { LD_DTVx } from './../instructionSet/LD_DTVx';
@@ -48,6 +51,7 @@ export class Chip8Impl implements Chip8 {
     private fetcher: Fetcher
     private bus: Bus
     private static readonly randomStrategy = () => Math.round(Math.random() * 255)
+    private idle: boolean
 
     constructor(bus: Bus) {
         this.fetcher = new FetcherImpl()
@@ -56,34 +60,33 @@ export class Chip8Impl implements Chip8 {
     }
 
     public bootstrap(): void {
+        this.bus.subscribe(IDLEEvent.ID, () => { this.idle = true })
+        this.bus.subscribe(RESUMEEvent.ID, () => { this.idle = false })
         const ram = new Array<number>(Constants.RAM_SIZE);
         const scr = new Array<number>(Constants.SCREEN_PIXELS);
         const stack = new Array<number>(Constants.STACK_SIZE);
         const v = new Array<number>(Constants.NUMBER_OF_GENERAL_REGISTERS);
-        this.initArray(ram);
-        this.initArray(scr);
-        this.initArray(stack);
-        this.initArray(v);
         this.chip8State = new Chip8StateBuilderImpl()
-            .ram(ram)
-            .stack(stack)
-            .v(v)
+            .ram(this.initArray(ram))
+            .stack(this.initArray(stack))
+            .v(this.initArray(v))
             .sp(0)
             .ip(Constants.FIRST_RAM_AVAILABLE_ADDRESS)
             .i(0)
-            .scr(scr)
+            .scr(this.initArray(scr))
             .delay(0)
             .sound(0)
             .opcode(0)
             .build()
-
         FontsetLoader.load(ram)
+        this.idle = false
     }
 
     initArray(arr: Array<number>) {
         for (let i = 0; i < arr.length; i++) {
             arr[i] = 0
         }
+        return arr
     }
 
     public loadProgram(rom: Uint8Array) {
@@ -93,6 +96,9 @@ export class Chip8Impl implements Chip8 {
     }
 
     public fetch(): void {
+        if (this.idle) {
+            return
+        }
         const ip = this.chip8State.ip
         const ram = this.chip8State.ram
         this.chip8State.opcode = this.fetcher.fetch(ip, ram)
@@ -107,6 +113,9 @@ export class Chip8Impl implements Chip8 {
     }
 
     public decode(): Instruction {
+        if (this.idle) {
+            return new IDLE(this.chip8State)
+        }
         // Instruction pointer to the next instruction
         this.chip8State.ip += 2;
 

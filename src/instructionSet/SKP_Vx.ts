@@ -11,11 +11,13 @@ export class SKP_Vx extends AbstractInstruction {
     }
 
     execute(): void {
-        this.bus.raise(RequestPressedKeysEvent.ID, (event: ResponsePressedKeysEvent) => {
+        let subscription = this.bus.subscribe(ResponsePressedKeysEvent.ID, (event: ResponsePressedKeysEvent) => {
+            this.bus.unsubscribe(ResponsePressedKeysEvent.ID, subscription)
             if (event.getPressedKeys()[this.chip8State.v[this.vx]]) {
                 this.chip8State.ip += 2
             }
         })
+        this.bus.raise(RequestPressedKeysEvent.ID, () => { })
     }
 
 }

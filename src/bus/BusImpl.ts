@@ -1,6 +1,7 @@
+import { Bus } from './Bus';
 import { BusEvent } from "./events/BusEvent";
 
-export class BusImpl {
+export class BusImpl implements Bus {
 
     private bus: Map<string, Array<(args: BusEvent) => void>>
 
@@ -18,7 +19,7 @@ export class BusImpl {
 
     public unsubscribe(eventId: string, subscription: number) {
         if (this.bus.has(eventId) && this.bus.get(eventId).length > 0) {
-            this.bus.get(eventId).slice(subscription, 1)
+            this.bus.get(eventId).splice(subscription, 1)
         }
     }
 

@@ -25,7 +25,7 @@ export class Main {
                 cpu.fetch()
                 let instruction = cpu.decode()
                 cpu.execute(instruction)
-            }, 2)
+            }, 16)
         })
 
 
