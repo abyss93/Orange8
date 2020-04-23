@@ -5,6 +5,8 @@ export interface Chip8 {
 
     loadProgram(rom: Uint8Array): void
 
+    handleTimers(): void
+
     fetch(): void
 
     decode(): Instruction

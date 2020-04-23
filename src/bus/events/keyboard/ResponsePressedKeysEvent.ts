@@ -3,7 +3,7 @@
 export class ResponsePressedKeysEvent {
     public static readonly ID = "SendPressedKeysEvent"
 
-    constructor(private pressedKeys: boolean[]) {
+    constructor(private pressedKeys: number[]) {
     }
 
     public getPressedKeys() {

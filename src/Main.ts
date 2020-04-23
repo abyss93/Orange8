@@ -8,6 +8,9 @@ import { ROMReader } from './input/ROMReader';
 
 export class Main {
 
+    private static readonly FPS = 40
+    private static readonly INSTRUCTIONS_PER_CYCLE = 20
+
     public start() {
 
         let bus: Bus = new BusImpl()
@@ -20,12 +23,18 @@ export class Main {
         let romPromise = fileReader.loadRomFile()
         romPromise.then(rom => {
             cpu.loadProgram(rom)
-
-            setInterval(() => {
-                cpu.fetch()
-                let instruction = cpu.decode()
-                cpu.execute(instruction)
-            }, 16)
+            function animate() {
+                setTimeout(function () {
+                    requestAnimationFrame(animate)
+                    for (let i = 0; i < Main.INSTRUCTIONS_PER_CYCLE; i++) {
+                        cpu.fetch();
+                        let instruction = cpu.decode();
+                        cpu.execute(instruction);
+                    }
+                    cpu.handleTimers();
+                }, 1000 / Main.FPS)
+            }
+            animate()
         })
 
 

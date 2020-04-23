@@ -95,14 +95,7 @@ export class Chip8Impl implements Chip8 {
         }
     }
 
-    public fetch(): void {
-        if (this.idle) {
-            return
-        }
-        const ip = this.chip8State.ip
-        const ram = this.chip8State.ram
-        this.chip8State.opcode = this.fetcher.fetch(ip, ram)
-
+    public handleTimers(){
         if (this.chip8State.delay > 0) {
             this.chip8State.delay -= 1
         }
@@ -110,6 +103,15 @@ export class Chip8Impl implements Chip8 {
         if (this.chip8State.sound > 0) {
             this.chip8State.sound -= 1
         }
+    }
+
+    public fetch(): void {
+        if (this.idle) {
+            return
+        }
+        const ip = this.chip8State.ip
+        const ram = this.chip8State.ram
+        this.chip8State.opcode = this.fetcher.fetch(ip, ram)
     }
 
     public decode(): Instruction {

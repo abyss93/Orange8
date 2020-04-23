@@ -2,8 +2,8 @@ import { Bus } from "../bus/Bus";
 import { KeyDownEvent } from "../bus/events/keyboard/KeyDownEvent";
 import { KeyUpEvent } from "../bus/events/keyboard/KeyUpEvent";
 import { RequestPressedKeysEvent } from "../bus/events/keyboard/RequestPressedKeysEvent";
-import { StartKeyboardEvent } from "../bus/events/keyboard/ResumeKeyboardEvent";
 import { ResponsePressedKeysEvent } from "../bus/events/keyboard/ResponsePressedKeysEvent";
+import { StartKeyboardEvent } from "../bus/events/keyboard/ResumeKeyboardEvent";
 import { StopKeyboardEvent } from "../bus/events/keyboard/SuspendKeyboardEvent";
 import { Constants } from "../utils/Constants";
 import { Keyconverter } from "../utils/KeyConverter";
@@ -45,7 +45,13 @@ export class Chip8keyboard {
     }
 
     sendPressedKeys(): void {
-        this.bus.raise(ResponsePressedKeysEvent.ID, new ResponsePressedKeysEvent(this.keys))
+        let pressedKeys: number[] = []
+        this.keys.map((key, index) => {
+            if (this.keys[index]) {
+                pressedKeys.push(Keyconverter.toChip8Key(index))
+            }
+        })
+        this.bus.raise(ResponsePressedKeysEvent.ID, new ResponsePressedKeysEvent(pressedKeys))
     }
 
 }

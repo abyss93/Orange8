@@ -13,7 +13,7 @@ export class SKP_Vx extends AbstractInstruction {
     execute(): void {
         let subscription = this.bus.subscribe(ResponsePressedKeysEvent.ID, (event: ResponsePressedKeysEvent) => {
             this.bus.unsubscribe(ResponsePressedKeysEvent.ID, subscription)
-            if (event.getPressedKeys()[this.chip8State.v[this.vx]]) {
+            if (event.getPressedKeys()[0] === this.chip8State.v[this.vx]) {
                 this.chip8State.ip += 2
             }
         })
