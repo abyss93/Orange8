@@ -15,7 +15,8 @@ export class Chip8UI {
         this.canvas.width = Constants.SCREEN_WIDTH * Constants.CANVAS_PIXEL_SIZE
         this.canvas.height = Constants.SCREEN_HEIGHT * Constants.CANVAS_PIXEL_SIZE
         this.graphicContext = this.canvas.getContext("2d")
-        document.body.append(this.canvas)
+        this.graphicContext.fillStyle = "#FFB000"
+        document.getElementById("gamearea").append(this.canvas)
     }
 
 

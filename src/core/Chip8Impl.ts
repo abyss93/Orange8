@@ -89,7 +89,7 @@ export class Chip8Impl implements Chip8 {
         return arr
     }
 
-    public loadProgram(rom: Uint8Array) {
+    public loadRom(rom: Uint8Array) {
         for (let i = 0; i < rom.length; i++) {
             this.chip8State.ram[Constants.FIRST_RAM_AVAILABLE_ADDRESS + i] = rom[i]
         }

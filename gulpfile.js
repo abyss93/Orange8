@@ -3,7 +3,8 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var tsify = require('tsify');
 var paths = {
-    pages: ['src/*.html']
+    pages: ['src/*.html'],
+    assets: ['assets/*']
 };
 
 gulp.task('copy-html', function () {
@@ -11,13 +12,19 @@ gulp.task('copy-html', function () {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', gulp.series(gulp.parallel('copy-html'), function () {
+gulp.task('copy-assets', function () {
+    return gulp.src(paths.assets)
+        .pipe(gulp.dest('dist/assets'));
+});
+
+gulp.task('default', gulp.series(gulp.parallel('copy-html', 'copy-assets'), function () {
     return browserify({
         basedir: '.',
         debug: true,
         entries: ['./src/Main.ts'],
         cache: {},
-        packageCache: {}
+        packageCache: {},
+        standalone: "chip8Emulator"
     })
         .plugin(tsify)
         .bundle()

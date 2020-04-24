@@ -1,7 +1,11 @@
 body {
-    background-color: #352f44;
+    background-color: black;
 }
 
 canvas {
-    border: 2px solid #310a5d;
+    border: 2px solid #FFB000;
+}
+
+#gamearea {
+    margin-top: 100px;
 }

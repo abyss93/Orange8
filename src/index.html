@@ -4,11 +4,66 @@
 <head>
     <meta charset="UTF-8" />
     <title>Chip8</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="bundle.js"></script>
     <link rel="stylesheet" href="index.css">
 </head>
 
-<body>
-    <script src="bundle.js"></script>
+<body onload="initEmulator()">
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img src="http://localhost/dist/assets/chip8Logo.png" width="200" height="104" alt="">
+                </a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <form>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="rom" onchange="loadRom()">
+                        <label class="custom-file-label" for="rom">Load Game...</label>
+                    </div>
+                </form>
+                <script>
+                    // Add the following code if you want the name of the file appear on select
+                    $(".custom-file-input").on("change", function () {
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                    });
+                </script>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+                <div id="gamearea"></div>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+    </div>
+    <script>
+        function initEmulator() {
+            chip8Emulator.initHardware()
+        }
+        function loadRom() {
+            var inputElement = document.getElementById("rom");
+            inputElement.files[0].arrayBuffer().then(buffer => {
+                chip8Emulator.loadRom(buffer);
+                chip8Emulator.startRom();
+            });
+        }
+        function instructionsPerClock(){
+            var instrPerClock = document.getElementById("instrPerClock").getAttribute("name")
+            chip8Emulator.setInstructionPerClock(instrPerClock)
+        }
+    </script>
 </body>
 
 </html>
